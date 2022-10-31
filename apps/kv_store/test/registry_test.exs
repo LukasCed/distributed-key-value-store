@@ -1,55 +1,51 @@
-defmodule FA.RegistryTest do
+defmodule KVStore.RegistryTest do
   use ExUnit.Case, async: true
 
   setup context do
-    _ = start_supervised!({FA.Registry, name: context.test})
+    _ = start_supervised!({KVStore.Registry, name: context.test})
     %{registry: context.test}
   end
 
-  test "spawns buckets", %{registry: registry} do
-    assert FA.Registry.lookup(registry, "shopping") == :error
+  test "spawns tables", %{registry: registry} do
+    assert KVStore.Registry.lookup(registry, "shopping") == :error
 
-    FA.Registry.create(registry, "shopping")
-    assert {:ok, bucket} = FA.Registry.lookup(registry, "shopping")
+    KVStore.Registry.create(registry, "shopping")
+    assert {:ok, table} = KVStore.Registry.lookup(registry, "shopping")
 
-    FA.Bucket.put(bucket, "milk", 1)
-    assert FA.Bucket.get(bucket, "milk") == 1
+    KVStore.table().put(table, "milk", 1)
+    assert KVStore.table().get(table, "milk") == 1
   end
 
-  test "removes buckets on exit", %{registry: registry} do
-    FA.Registry.create(registry, "shopping")
-    {:ok, bucket} = FA.Registry.lookup(registry, "shopping")
-    Agent.stop(bucket)
+  test "removes tables on exit", %{registry: registry} do
+    KVStore.Registry.create(registry, "shopping")
+    {:ok, table} = KVStore.Registry.lookup(registry, "shopping")
+    Agent.stop(table)
 
     # Do a call to ensure the registry processed the DOWN message
-    _ = FA.Registry.create(registry, "bogus")
-    assert FA.Registry.lookup(registry, "shopping") == :error
+    _ = KVStore.Registry.create(registry, "bogus")
+    assert KVStore.Registry.lookup(registry, "shopping") == :error
   end
 
+  test "removes table on crash", %{registry: registry} do
+    KVStore.Registry.create(registry, "shopping")
+    {:ok, table} = KVStore.Registry.lookup(registry, "shopping")
 
-  test "removes bucket on crash", %{registry: registry} do
-    FA.Registry.create(registry, "shopping")
-    {:ok, bucket} = FA.Registry.lookup(registry, "shopping")
-
-    # Stop the bucket with non-normal reason
-    Agent.stop(bucket, :shutdown)
+    # Stop the table with non-normal reason
+    Agent.stop(table, :shutdown)
 
     # Do a call to ensure the registry processed the DOWN message
-    _ = FA.Registry.create(registry, "bogus")
-    assert FA.Registry.lookup(registry, "shopping") == :error
+    _ = KVStore.Registry.create(registry, "bogus")
+    assert KVStore.Registry.lookup(registry, "shopping") == :error
   end
 
+  test "table can crash at any time", %{registry: registry} do
+    KVStore.Registry.create(registry, "shopping")
+    {:ok, table} = KVStore.Registry.lookup(registry, "shopping")
 
-  test "bucket can crash at any time", %{registry: registry} do
-    FA.Registry.create(registry, "shopping")
-    {:ok, bucket} = FA.Registry.lookup(registry, "shopping")
-
-    # Simulate a bucket crash by explicitly and synchronously shutting it down
-    Agent.stop(bucket, :shutdown)
+    # Simulate a table crash by explicitly and synchronously shutting it down
+    Agent.stop(table, :shutdown)
 
     # Now trying to call the dead process causes a :noproc exit
-    catch_exit FA.Bucket.put(bucket, "milk", 3)
+    catch_exit(KVStore.table().put(table, "milk", 3))
   end
-
-
 end

@@ -1,4 +1,4 @@
-defmodule FaUmbrella.MixProject do
+defmodule KV.MixProject do
   use Mix.Project
 
   def project do
@@ -10,12 +10,12 @@ defmodule FaUmbrella.MixProject do
       releases: [
         foo: [
           version: "0.0.1",
-          applications: [fa_server: :permanent, first_assignment: :permanent],
+          applications: [kv_server: :permanent, kv_store: :permanent],
           cookie: "weknoweachother"
         ],
         bar: [
           version: "0.0.1",
-          applications: [first_assignment: :permanent],
+          applications: [kv_store: :permanent],
           cookie: "weknoweachother"
         ]
       ]

@@ -1,16 +1,16 @@
-# FA
+# KV Store
 
 **TODO: Add description**
 
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `first_assignment` to your list of dependencies in `mix.exs`:
+by adding `kv_store` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:first_assignment, "~> 0.1.0"}
+    {:kv_store, "~> 0.1.0"}
   ]
 end
 ```

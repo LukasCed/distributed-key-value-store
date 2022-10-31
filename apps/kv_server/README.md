@@ -1,16 +1,16 @@
-# FAServer
+# KVStore
 
 **TODO: Add description**
 
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `fa_server` to your list of dependencies in `mix.exs`:
+by adding `kv_server` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:fa_server, "~> 0.1.0"}
+    {:kv_server, "~> 0.1.0"}
   ]
 end
 ```

@@ -1,28 +1,28 @@
 ---------------------- MODULE fa_syst ----------------------
 EXTENDS TLC
-CONSTANT Values, Nodes, Buckets 
+CONSTANT Values, Nodes, tables 
 VARIABLES msgs, proc, routes  \* route is not a variable
 vars == <<msgs, proc, routes>>
 
 Msgs == UNION {
-    [t: {"client"}, b: Buckets, v: Values],
-    [t: {"node"}, b: Buckets, dst: Nodes, v: Values]
+    [t: {"client"}, b: tables, v: Values],
+    [t: {"node"}, b: tables, dst: Nodes, v: Values]
 }
 
-Routes == [Nodes -> Buckets]
+Routes == [Nodes -> tables]
 
 
 NodeMsg(dst, b, v) == [t |-> "node", dst |-> dst, b |-> b, v |-> v]
 
 TypeInvariant == 
-    /\ proc \in [Nodes -> [Buckets -> Values]]
+    /\ proc \in [Nodes -> [tables -> Values]]
     /\ routes \in Routes
     /\ msgs \subseteq Msgs
 
 Init ==
-    /\ \E v \in Values: proc = [ n \in Nodes |-> [ b \in Buckets |-> v ] ]
+    /\ \E v \in Values: proc = [ n \in Nodes |-> [ b \in tables |-> v ] ]
     /\ msgs = {}
-    /\ routes \in [Nodes -> Buckets]
+    /\ routes \in [Nodes -> tables]
 
 RcvN == \E m \in msgs, n \in Nodes:
         /\ m.t = "node"

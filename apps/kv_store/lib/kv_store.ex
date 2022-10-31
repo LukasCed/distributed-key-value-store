@@ -1,7 +1,9 @@
-defmodule FA do
+defmodule KVStore do
   use Application
+  require Logger
+
   @moduledoc """
-  Documentation for `FA`.
+  Documentation for `KVStore`.
   """
 
   @impl true
@@ -9,8 +11,9 @@ defmodule FA do
     # Although we don't use the supervisor name below directly,
     # it can be useful when debugging or introspecting the system.
 
-    # :ok = :syn.add_node_to_scopes([:first_assignment])
+    Logger.debug("Adding node to scopes")
+    :ok = :syn.add_node_to_scopes([:kv_store])
 
-    FA.Supervisor.start_link(name: FA.Supervisor)
+    KVStore.Supervisor.start_link(name: KVStore.Supervisor)
   end
 end

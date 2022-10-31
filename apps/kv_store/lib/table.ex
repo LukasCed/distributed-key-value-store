@@ -1,11 +1,11 @@
-defmodule FA.Bucket do
+defmodule KVStore.Table do
   use Agent, restart: :temporary
 
   @doc """
-  Starts a new bucket
+  Starts a new table
   """
   def start_link(_opts) do
-    Agent.start_link fn -> %{} end
+    Agent.start_link(fn -> %{} end)
   end
 
   def put(agent, key, item) do
@@ -19,8 +19,4 @@ defmodule FA.Bucket do
   def delete(agent, key) do
     Agent.get_and_update(agent, &Map.pop(&1, key))
   end
-
-  # def sync(agent, key) do
-  #   members = for {pid, _} <- :syn.members(:first_assignment, :bucket), pid != self, do: pid
-  # end
 end

@@ -1,30 +1,27 @@
-defmodule FA.BucketTest do
+defmodule KVStore.tableTest() do
   use ExUnit.Case, async: true
 
   setup do
-    bucket = start_supervised!(FA.Bucket)
-    %{bucket: bucket}
+    table = start_supervised!(KVStore.table())
+    %{table: table}
   end
 
-  test "stores values by key", %{bucket: bucket} do
-    assert FA.Bucket.get(bucket, "milk") == nil
+  test "stores values by key", %{table: table} do
+    assert KVStore.table().get(table, "milk") == nil
 
-    FA.Bucket.put(bucket, "milk", 3)
-    assert FA.Bucket.get(bucket, "milk") == 3
+    KVStore.table().put(table, "milk", 3)
+    assert KVStore.table().get(table, "milk") == 3
   end
 
-  test "deletes values by key", %{bucket: bucket} do
-    FA.Bucket.put(bucket, "milk", 3)
-    assert FA.Bucket.get(bucket, "milk") == 3
+  test "deletes values by key", %{table: table} do
+    KVStore.table().put(table, "milk", 3)
+    assert KVStore.table().get(table, "milk") == 3
 
-    FA.Bucket.delete(bucket, "milk")
-    assert FA.Bucket.get(bucket, "milk") == nil
-
+    KVStore.table().delete(table, "milk")
+    assert KVStore.table().get(table, "milk") == nil
   end
 
   test "are temporary workers" do
-    assert Supervisor.child_spec(FA.Bucket, []).restart == :temporary
+    assert Supervisor.child_spec(KVStore.table(), []).restart == :temporary
   end
-
-
 end

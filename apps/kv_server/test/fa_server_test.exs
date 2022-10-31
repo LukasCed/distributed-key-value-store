@@ -1,12 +1,11 @@
-defmodule FAServerTest do
-
+defmodule KVStoreTest do
   use ExUnit.Case
 
   @moduletag :capture_log
 
   setup do
-    Application.stop(:first_assignment)
-    :ok = Application.start(:first_assignment)
+    Application.stop(:kv_store)
+    :ok = Application.start(:kv_store)
   end
 
   setup do
@@ -17,23 +16,23 @@ defmodule FAServerTest do
 
   test "server interaction", %{socket: socket} do
     assert send_and_recv(socket, "UNKNOWN shopping\r\n") ==
-          "UNKNOWN COMMAND\r\n"
+             "UNKNOWN COMMAND\r\n"
 
     assert send_and_recv(socket, "GET shopping eggs\r\n") ==
-          "NOT FOUND\r\n"
+             "NOT FOUND\r\n"
 
     assert send_and_recv(socket, "CREATE shopping\r\n") ==
-          "OK\r\n"
+             "OK\r\n"
 
     assert send_and_recv(socket, "PUT shopping eggs 3\r\n") ==
-          "OK\r\n"
+             "OK\r\n"
 
     # GET returns two lines
     assert send_and_recv(socket, "GET shopping eggs\r\n") == "3\r\n"
     assert send_and_recv(socket, "") == "OK\r\n"
 
     assert send_and_recv(socket, "DELETE shopping eggs\r\n") ==
-          "OK\r\n"
+             "OK\r\n"
 
     # GET returns two lines
     assert send_and_recv(socket, "GET shopping eggs\r\n") == "\r\n"
@@ -45,5 +44,4 @@ defmodule FAServerTest do
     {:ok, data} = :gen_tcp.recv(socket, 0, 1000)
     data
   end
-
 end

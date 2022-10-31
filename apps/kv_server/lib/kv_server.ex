@@ -1,4 +1,5 @@
-defmodule FAServer do
+defmodule KVServer do
+  # handles the connection details
   require Logger
 
   def accept(port) do
@@ -11,13 +12,14 @@ defmodule FAServer do
     #
     {:ok, socket} =
       :gen_tcp.listen(port, [:binary, packet: :line, active: false, reuseaddr: true])
+
     Logger.info("Accepting connections on port #{port}")
     loop_acceptor(socket)
   end
 
   defp loop_acceptor(socket) do
     {:ok, client} = :gen_tcp.accept(socket)
-    {:ok, pid} = Task.Supervisor.start_child(FAServer.TaskSupervisor, fn -> serve(client) end)
+    {:ok, pid} = Task.Supervisor.start_child(KVServer.TaskSupervisor, fn -> serve(client) end)
     :ok = :gen_tcp.controlling_process(client, pid)
     loop_acceptor(socket)
   end
@@ -25,8 +27,8 @@ defmodule FAServer do
   defp serve(socket) do
     msg =
       with {:ok, data} <- read_line(socket),
-           {:ok, command} <- FAServer.Command.parse(data),
-           do: FAServer.Command.run(command)
+           {:ok, command} <- KVServer.Command.parse(data),
+           do: KVServer.Command.run(command)
 
     write_line(socket, msg)
     serve(socket)
@@ -59,5 +61,4 @@ defmodule FAServer do
     :gen_tcp.send(socket, "ERROR\r\n")
     exit(error)
   end
-
 end

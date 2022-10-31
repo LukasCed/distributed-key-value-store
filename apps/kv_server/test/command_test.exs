@@ -1,4 +1,4 @@
-defmodule FAServer.CommandTest do
+defmodule KVStore.CommandTest do
   use ExUnit.Case, async: true
-  doctest FAServer.Command
+  doctest KVStore.Command
 end
