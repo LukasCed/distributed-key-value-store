@@ -65,8 +65,8 @@ defmodule KVStore.Registry do
     Logger.debug("Joining the cluster with pid #{inspect(self())}")
     :ok = :syn.join(:kv_store, :node, self())
 
-    Logger.debug("Currently known nodes #{inspect(:syn.members(:kv_store, :node))}")
-    Logger.debug("Currently known nodes2 #{inspect(Node.list(:known))}")
+    # Logger.debug("Currently known nodes #{inspect(:syn.members(:kv_store, :node))}")
+    Logger.debug("Currently known nodes #{inspect(Node.list(:known))}")
 
     {:ok, {tables, refs}}
   end

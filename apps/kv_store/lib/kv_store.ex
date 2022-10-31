@@ -14,6 +14,7 @@ defmodule KVStore do
     Logger.debug("Adding node to scopes")
     :ok = :syn.add_node_to_scopes([:kv_store])
 
+    KVStore.AutoCluster.start()
     KVStore.Supervisor.start_link(name: KVStore.Supervisor)
   end
 end

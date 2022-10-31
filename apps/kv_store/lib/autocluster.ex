@@ -1,4 +1,4 @@
-defmodule KVStore.Autocluster do
+defmodule KVStore.AutoCluster do
   require Logger
 
   def visible_nodes do
@@ -37,7 +37,7 @@ defmodule KVStore.Autocluster do
   def monitor(nil) do
     pid = spawn(
       fn ->
-        IO.puts "Starting node monitor process"
+        Logger.debug("Starting node monitor process")
         :net_kernel.monitor_nodes true
         monitor_cluster()
       end
@@ -50,7 +50,7 @@ defmodule KVStore.Autocluster do
   def monitor(_), do: IO.puts "Already monitoring!"
 
   defp monitor_cluster do
-    KVStore.Autocluster.visible_nodes()
+    KVStore.AutoCluster.visible_nodes()
     receive do
       {:nodeup, node} ->
         IO.puts good_news_marker() <> " Node joined: #{inspect node}"
