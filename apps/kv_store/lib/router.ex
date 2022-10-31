@@ -27,7 +27,7 @@ defmodule KVStore.Router do
     # route to everything
     # node() or node?
     nodes = nodes()
-    Logger.debug("Routing to nodes: #{inspect(nodes)} from: #{inspect(self())}")
+    Logger.debug("Routing to nodes: #{inspect(nodes)} from: #{inspect(node())}")
 
     nodes |> Enum.each(fn node -> apply(mod, fun, [node | args]) end)
   end
@@ -59,6 +59,6 @@ defmodule KVStore.Router do
   end
 
   def nodes do
-    for {pid, _} <- :syn.members(:kv_store, :node), pid != self(), do: pid
+    for name <- Node.list(:known), name != :nonode@nohost, do: name
   end
 end

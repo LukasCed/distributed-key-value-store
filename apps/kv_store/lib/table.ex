@@ -16,6 +16,10 @@ defmodule KVStore.Table do
     Agent.get(agent, &Map.get(&1, key))
   end
 
+  def get_all(agent) do
+    Agent.get(agent, fn map -> map end)
+  end
+
   def delete(agent, key) do
     Agent.get_and_update(agent, &Map.pop(&1, key))
   end

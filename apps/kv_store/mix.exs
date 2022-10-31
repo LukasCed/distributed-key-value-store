@@ -35,7 +35,8 @@ defmodule KVStore.MixProject do
       {:syn, "~> 3.3"},
       {:local_cluster, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:jason, "~> 1.3"}
+      {:jason, "~> 1.3"},
+      {:libcluster, "~> 2.2.3"},
     ]
   end
 end
