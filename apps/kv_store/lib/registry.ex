@@ -57,9 +57,6 @@ defmodule KVStore.Registry do
     tables = :ets.new(server_name, [:named_table, read_concurrency: true])
     refs = %{}
 
-    Logger.debug("Adding node to scopes")
-    :ok = :syn.add_node_to_scopes([:kv_store])
-
     Logger.debug("Joining the cluster with pid #{inspect(self())}")
     :ok = :syn.join(:kv_store, :node, self())
 

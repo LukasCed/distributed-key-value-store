@@ -1,6 +1,6 @@
 import Config
 
-config :kv_store, :routing_table, [{?a..?z, node()}]
+# config :kv_store, :routing_table, [{?a..?z, node()}]
 
 # if config_env() == :prod do
 #   config :kv_store, :routing_table, [

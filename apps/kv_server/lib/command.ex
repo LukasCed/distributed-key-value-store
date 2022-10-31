@@ -42,7 +42,7 @@ defmodule KVServer.Command do
 
     case KVStore.Router.route(key, KVStore.Registry, :get, [table, key]) do
       {:ok, value} ->  {:ok, "OK: #{value}\r\n"}
-      {:error, value} -> {:ok, "ERROR: value in table #{table} with the key #{key} not found\r\n"}
+      {:error, _} -> {:ok, "ERROR: value in table #{table} with the key #{key} not found\r\n"}
     end
   end
 

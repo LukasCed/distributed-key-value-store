@@ -32,11 +32,11 @@ defmodule KVStore.Router do
     nodes |> Enum.each(fn node -> apply(mod, fun, [node | args]) end)
   end
 
-  defp spawn_process(node, key, mod, fun, args) do
-    node
-    |> Task.Supervisor.async(KVStore.Router, :route, [key, mod, fun, args])
-    |> Task.await()
-  end
+  # defp spawn_process(node, key, mod, fun, args) do
+  #   node
+  #   |> Task.Supervisor.async(KVStore.Router, :route, [key, mod, fun, args])
+  #   |> Task.await()
+  # end
 
   defp no_entry_error(key) do
     raise "could not find entry for #{inspect(key)} in nodes #{inspect(nodes())}"
