@@ -102,7 +102,7 @@ defmodule KVStore.Registry do
   def handle_call({:delete, table, key, {:transaction, txid}}, _from, {tables, refs, txs}) do
     Logger.debug("Writing down delete key=#{inspect(key)} in a transaction #{inspect(txid)}")
     tx_list = Map.get(txs, txid) || []
-    txs = Map.put(txs, txid, [{:delete, [table, key]} | tx_list])
+    txs = Map.put(txs, txid, [{:do_delete, [table, key]} | tx_list])
     {:reply, :ok, {tables, refs, txs}}
   end
 
@@ -114,7 +114,7 @@ defmodule KVStore.Registry do
     )
 
     tx_list = Map.get(txs, txid) || []
-    txs = Map.put(txs, txid, [{:create, [name]} | tx_list])
+    txs = Map.put(txs, txid, [{:do_create, [name]} | tx_list])
     {:reply, :ok, {tables, refs, txs}}
   end
 
@@ -123,7 +123,7 @@ defmodule KVStore.Registry do
   def handle_call({:get, table, key, {:transaction, txid}}, _from, {tables, refs, txs}) do
     Logger.debug("Writing down get key=#{inspect(key)} in a transaction #{inspect(txid)}")
     tx_list = Map.get(txs, txid) || []
-    txs = Map.put(txs, txid, [{:get, [table, key]} | tx_list])
+    txs = Map.put(txs, txid, [{:do_get, [table, key]} | tx_list])
     {:reply, :ok, {tables, refs, txs}}
   end
 
@@ -132,7 +132,7 @@ defmodule KVStore.Registry do
   def handle_call({:put, table, key, value, {:transaction, txid}}, _from, {tables, refs, txs}) do
     Logger.debug("Writing down put key=#{inspect(key)} in a transaction #{inspect(txid)}")
     tx_list = Map.get(txs, txid) || []
-    txs = Map.put(txs, txid, [{:put, table, [key, value]} | tx_list])
+    txs = Map.put(txs, txid, [{:do_put, table, [key, value]} | tx_list])
     {:reply, :ok, {tables, refs, txs}}
   end
 
@@ -166,36 +166,13 @@ defmodule KVStore.Registry do
   @impl true
   def handle_call({:create, name, :no_transaction}, _from, {tables, refs, _}) do
     Logger.debug("Attempting to create table #{inspect(name)}")
-
-    case lookup(tables, name) do
-      {:ok, _pid} ->
-        {:reply, :exists, {tables, refs, %{}}}
-
-      :error ->
-        {:ok, pid} = DynamicSupervisor.start_child(KVStore.TableSupervisor, KVStore.Table)
-        ref = Process.monitor(pid)
-        refs = Map.put(refs, ref, name)
-        :ets.insert(tables, {name, pid})
-        Logger.debug("Table created")
-        {:reply, pid, {tables, refs, %{}}}
-    end
+    do_create(tables, refs, name)
   end
 
   @impl true
   def handle_call({:get, table, key, :no_transaction}, _from, {tables, refs, _}) do
     Logger.debug("Attempting to get a record key=#{inspect(key)} from table #{inspect(table)}")
-
-    case lookup(tables, table) do
-      {:ok, pid} ->
-        case KVStore.Table.get(pid, key) do
-          nil -> {:reply, {:error, nil}, {tables, refs, %{}}}
-          value -> {:reply, {:ok, value}, {tables, refs, %{}}}
-        end
-
-      :error ->
-        Logger.debug("Table #{inspect(table)} does not exist")
-        {:reply, {:error, :none}, {tables, refs, %{}}}
-    end
+    do_get(tables, refs, table, key)
   end
 
   @impl true
@@ -219,6 +196,50 @@ defmodule KVStore.Registry do
   def handle_cast({:delete, table, key, :no_transaction}, {tables, refs, _}) do
     Logger.debug("Attempting to delete a record key=#{inspect(key)} from table #{inspect(table)}")
 
+    do_delete(tables, table, key)
+    {:noreply, {tables, refs, %{}}}
+  end
+
+
+  @impl true
+  def handle_cast({:put, table, key, value, :no_transaction}, {tables, refs, _}) do
+    Logger.debug(
+      "Attempting to put a record key=#{inspect(key)} value=#{inspect(value)} to table #{inspect(table)}"
+    )
+    do_put(tables, table, key, value)
+    {:noreply, {tables, refs, %{}}}
+  end
+
+  def do_create(tables, refs, name) do
+    case lookup(tables, name) do
+      {:ok, _pid} ->
+        {:reply, :exists, {tables, refs, %{}}}
+
+      :error ->
+        {:ok, pid} = DynamicSupervisor.start_child(KVStore.TableSupervisor, KVStore.Table)
+        ref = Process.monitor(pid)
+        refs = Map.put(refs, ref, name)
+        :ets.insert(tables, {name, pid})
+        Logger.debug("Table created")
+        {:reply, pid, {tables, refs, %{}}}
+    end
+  end
+
+  def do_get(tables, refs, table, key) do
+    case lookup(tables, table) do
+      {:ok, pid} ->
+        case KVStore.Table.get(pid, key) do
+          nil -> {:reply, {:error, nil}, {tables, refs, %{}}}
+          value -> {:reply, {:ok, value}, {tables, refs, %{}}}
+        end
+
+      :error ->
+        Logger.debug("Table #{inspect(table)} does not exist")
+        {:reply, {:error, :none}, {tables, refs, %{}}}
+    end
+  end
+
+  def do_delete(tables, table, key) do
     case lookup(tables, table) do
       {:ok, pid} ->
         KVStore.Table.delete(pid, key)
@@ -227,16 +248,9 @@ defmodule KVStore.Registry do
       :error ->
         Logger.debug("Table #{inspect(table)} does not exist")
     end
-
-    {:noreply, {tables, refs, %{}}}
   end
 
-  @impl true
-  def handle_cast({:put, table, key, value, :no_transaction}, {tables, refs, _}) do
-    Logger.debug(
-      "Attempting to put a record key=#{inspect(key)} value=#{inspect(value)} to table #{inspect(table)}"
-    )
-
+  def do_put(tables, table, key, value) do
     case lookup(tables, table) do
       {:ok, pid} ->
         KVStore.Table.put(pid, key, value)
@@ -245,8 +259,6 @@ defmodule KVStore.Registry do
       :error ->
         Logger.debug("Table #{inspect(table)} does not exist")
     end
-
-    {:noreply, {tables, refs, %{}}}
   end
 
   @impl true
