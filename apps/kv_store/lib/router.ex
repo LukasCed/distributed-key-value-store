@@ -1,5 +1,6 @@
 defmodule KVStore.Router do
   require Logger
+
   @doc """
   Dispatch the given `mod`, `fun`, `args` request
   to the appropriate node based on the `key`.
@@ -29,7 +30,7 @@ defmodule KVStore.Router do
     nodes = nodes()
     Logger.debug("Routing to nodes: #{inspect(nodes)} from: #{inspect(node())}")
 
-    nodes |> Enum.each(fn node -> apply(mod, fun, [node | args]) end)
+    for node <- nodes, do: apply(mod, fun, [node | args])
   end
 
   # defp spawn_process(node, key, mod, fun, args) do

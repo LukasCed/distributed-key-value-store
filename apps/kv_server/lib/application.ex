@@ -13,7 +13,8 @@ defmodule KVServer.Application do
       # Starts a worker by calling: KVStore.Worker.start_link(arg)
       # {KVServer.Worker, arg}
       {Task.Supervisor, name: KVServer.TaskSupervisor},
-      Supervisor.child_spec({Task, fn -> KVServer.accept(port) end}, restart: :permanent)
+      Supervisor.child_spec({Task, fn -> KVServer.accept(port) end}, restart: :permanent),
+      {KVServer.TxManager, name: KVServer.TxManager}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

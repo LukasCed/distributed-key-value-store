@@ -15,7 +15,8 @@ defmodule KVStore.AutoCluster do
     Node.list(:known)
     |> display_nodes("All Nodes")
   end
-  def ping_node(node) when is_atom(node), do: Node.ping node
+
+  def ping_node(node) when is_atom(node), do: Node.ping(node)
 
   def start do
     monitor()
@@ -23,63 +24,70 @@ defmodule KVStore.AutoCluster do
   end
 
   def connect_node(node) do
-    IO.puts "Going to connect up node #{inspect node}..."
+    IO.puts("Going to connect up node #{inspect(node)}...")
     :net_kernel.connect_node(node)
   end
 
   def disconnect_node(node) do
-    IO.puts "Going to disconnect node #{inspect node}..."
+    IO.puts("Going to disconnect node #{inspect(node)}...")
     :net_kernel.disconnect(node)
   end
 
-  def monitor, do: monitor Process.whereis(:cluster_monitor)
+  def monitor, do: monitor(Process.whereis(:cluster_monitor))
 
   def monitor(nil) do
-    pid = spawn(
-      fn ->
+    pid =
+      spawn(fn ->
         Logger.debug("Starting node monitor process")
-        :net_kernel.monitor_nodes true
+        :net_kernel.monitor_nodes(true)
         monitor_cluster()
-      end
-    )
+      end)
 
     Process.register(pid, :cluster_monitor)
     pid
   end
 
-  def monitor(_), do: IO.puts "Already monitoring!"
+  def monitor(_), do: IO.puts("Already monitoring!")
 
   defp monitor_cluster do
     KVStore.AutoCluster.visible_nodes()
+
     receive do
       {:nodeup, node} ->
-        IO.puts good_news_marker() <> " Node joined: #{inspect node}"
+        IO.puts(good_news_marker() <> " Node joined: #{inspect(node)}")
         monitor_cluster()
+
       {:nodedown, node} ->
-        IO.puts bad_news_marker() <> " Node departed: #{inspect node}"
+        IO.puts(bad_news_marker() <> " Node departed: #{inspect(node)}")
         monitor_cluster()
-      x -> IO.puts "Outa here with #{x}"
+
+      x ->
+        IO.puts("Outa here with #{x}")
         :ok
     end
   end
 
   defp display_nodes(nodes, title) do
-    IO.puts "#{stars()} #{title} #{stars()}"
+    IO.puts("#{stars()} #{title} #{stars()}")
     display_nodes(nodes)
   end
 
-  defp display_nodes([]), do: IO.puts "Not connected to any cluster. We are alone."
-  defp display_nodes(nodes) when is_list(nodes) do
-    IO.puts "Nodes in our cluster, including ourselves:"
+  defp display_nodes([]), do: IO.puts("Not connected to any cluster. We are alone.")
 
-    [Node.self()|nodes]
-    |> Enum.sort
-    |> Enum.dedup
-    |> Enum.each(fn node -> IO.puts "     #{inspect node}" end)
+  defp display_nodes(nodes) when is_list(nodes) do
+    IO.puts("Nodes in our cluster, including ourselves:")
+
+    [Node.self() | nodes]
+    |> Enum.sort()
+    |> Enum.dedup()
+    |> Enum.each(fn node -> IO.puts("     #{inspect(node)}") end)
   end
 
-  defp good_news_marker, do: IO.ANSI.green() <> String.duplicate(<<0x1F603 :: utf8>>, 5) <> IO.ANSI.reset()
-  defp bad_news_marker, do: IO.ANSI.red() <> String.duplicate(<<0x1F630 :: utf8>>, 5) <> IO.ANSI.reset()
-  defp stars, do: String.duplicate "*", 10
+  defp good_news_marker,
+    do: IO.ANSI.green() <> String.duplicate(<<0x1F603::utf8>>, 5) <> IO.ANSI.reset()
 
+  defp bad_news_marker,
+    do: IO.ANSI.red() <> String.duplicate(<<0x1F630::utf8>>, 5) <> IO.ANSI.reset()
+
+  defp stars, do: String.duplicate("*", 10)
 end
