@@ -51,7 +51,11 @@ defmodule KVServer.Command do
   # curr state vs prev state
   def run({:end_transaction, :transaction}) do
     Logger.debug("Ending a transaction")
-    KVServer.TxManager.end_transaction()
+    case KVServer.TxManager.end_transaction() do
+      {:ok, txid} -> {:ok, "OK: transaction #{inspect(txid)} ended\r\n"}
+      {:prepare_fail, txid} -> {:ok, "ERROR: Could not get all nodes to agree in tx #{inspect(txid)}\r\n"}
+      {:commit_fail, txid} -> {:ok, "ERROR: Could not get all nodes to commit in tx #{inspect(txid)}\r\n"}
+    end
   end
 
   # curr state vs prev state

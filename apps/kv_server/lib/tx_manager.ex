@@ -57,15 +57,21 @@ defmodule KVServer.TxManager do
     # @todo make so that nodes send their ids together with acks so you know only those who needed to ack'ed
     Logger.debug("Received acks when preparing #{inspect(acks)}")
     # phase 2: send commit
-    case length(acks) do
+    case length(acks) == p_count and :no not in acks do
       # ttl to avoid infinte loop
-      ^p_count ->
-        :commit_success = commit(txid, p_count, 10)
-        Logger.debug("#{inspect(txid)} was successfuly commited")
-      _ -> raise "Could not get all the acks for prepare. Aborting transaction"
+      true ->
+        case commit(txid, p_count, 10) do
+          :commit_success ->
+            Logger.debug("#{inspect(txid)} was successfuly commited")
+            {:reply, {:ok, txid}, {txids, participants}}
+          :commit_fail ->
+            Logger.debug("Failed the commit step in #{inspect(txid)}")
+            {:reply, {:commit_fail, txid}, {txids, participants}}
+        end
+      _ ->
+        Logger.debug("Failed the prepare step in #{inspect(txid)}")
+        {:reply, {:prepare_fail, txid}, {txids, participants}}
     end
-
-    {:reply, {:ok, txid}, {txids, participants}}
   end
 
   @impl GenServer
@@ -81,10 +87,14 @@ defmodule KVServer.TxManager do
     case Map.get(txids, pid) do
       nil -> raise "Attempting to handle a transaction but process #{pid} has no transactions associated"
       txid ->
-        # hacky but whatever
+        # collect info of how many nodes acknowledged this operation. keep track of the maximum value
+        # the same value will be used later to wait for acks to commit
         acks = fnct.(txid)
         acks = if is_list(acks), do: acks, else: [acks]
-        participants = Map.put(participants, txid, length(acks))
+        prev_acks = Map.get(participants, txid, 0)
+        participants = Map.put(participants, txid, max(prev_acks, length(acks)))
+
+        Logger.debug("Participants count: #{inspect(participants)}")
         {:reply, {:ok, txid}, {txids, participants}}
     end
   end
@@ -96,16 +106,16 @@ defmodule KVServer.TxManager do
 
   defp commit(txid, expected_acks, ttl) do
     acks = KVStore.Router.route_all(KVStore.Registry, :commit, [txid])
-    Logger.debug("Received acks when commiting #{inspect(acks)}")
+    Logger.debug("Received acks when commiting #{inspect(acks)}, expected #{inspect(expected_acks)}")
 
     if ttl > 0 do
       case length(acks) do
         ^expected_acks -> :commit_success
         _ -> commit(txid, expected_acks, ttl - 1)
       end
+    else
+      :commit_fail
     end
-
-    :commit_fail
   end
 
   @impl GenServer
