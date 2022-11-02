@@ -3,9 +3,14 @@ defmodule KVStore.Validator do
 
   def validate_transactions(operations, {tables, refs, txs}) do
     Logger.debug("Validating some operations before answering")
+
     validity =
-      (for {:do_delete, [table, key, _]} <- operations, do: validate_delete(operations, table, tables, key)) ++
-      (for {:do_put, [table, key, value, _]} <- operations, do: validate_put(operations, table, tables, key, value))
+      for(
+        {:do_delete, [table, key, _]} <- operations,
+        do: validate_delete(operations, table, tables, key)
+      ) ++
+        for {:do_put, [table, key, value, _]} <- operations,
+            do: validate_put(operations, table, tables, key, value)
 
     case :no in validity do
       true -> {:reply, :no, {tables, refs, txs}}
@@ -28,15 +33,20 @@ defmodule KVStore.Validator do
                 [] -> :no
                 _ -> :yes
               end
-            _ -> :yes
+
+            _ ->
+              :yes
           end
-        :error ->   # or in the transactions
+
+        # or in the transactions
+        :error ->
           case for {:do_create, [table_tx, _]} <- operations, table_tx == table, do: :ok do
             [] -> :no
             _ -> :yes
           end
       end
     ]
+
     # at least one reason not to commit - answer no
     case :no in validity do
       true -> :no
@@ -50,8 +60,11 @@ defmodule KVStore.Validator do
     validity = [
       # check if there is the right table
       case lookup(tables, table) do
-        {:ok, _} -> :yes
-        :error ->  # or in the transactions
+        {:ok, _} ->
+          :yes
+
+        # or in the transactions
+        :error ->
           case for {:do_create, [table_tx, _]} <- operations, table_tx == table, do: :ok do
             [] -> :no
             _ -> :yes
@@ -64,6 +77,7 @@ defmodule KVStore.Validator do
       true ->
         Logger.debug("Put invalid")
         :no
+
       false ->
         Logger.debug("Put valid")
         :yes

@@ -3,7 +3,7 @@ defmodule KVServer.TxManager do
   require Logger
   require UUID
 
-    # ---------------------------- interface ----------------------------
+  # ---------------------------- interface ----------------------------
 
   def start_transaction() do
     GenServer.call(__MODULE__, :transaction_start)
@@ -64,10 +64,12 @@ defmodule KVServer.TxManager do
           :commit_success ->
             Logger.debug("#{inspect(txid)} was successfuly commited")
             {:reply, {:ok, txid}, {txids, participants}}
+
           :commit_fail ->
             Logger.debug("Failed the commit step in #{inspect(txid)}")
             {:reply, {:commit_fail, txid}, {txids, participants}}
         end
+
       _ ->
         Logger.debug("Failed the prepare step in #{inspect(txid)}")
         {:reply, {:prepare_fail, txid}, {txids, participants}}
@@ -85,7 +87,9 @@ defmodule KVServer.TxManager do
   def handle_call({:transaction, fnct}, {pid, _}, {txids, participants}) do
     # handle transaction, wait for acks and mark how many nodes participated in the transaction
     case Map.get(txids, pid) do
-      nil -> raise "Attempting to handle a transaction but process #{pid} has no transactions associated"
+      nil ->
+        raise "Attempting to handle a transaction but process #{pid} has no transactions associated"
+
       txid ->
         # collect info of how many nodes acknowledged this operation. keep track of the maximum value
         # the same value will be used later to wait for acks to commit
@@ -106,7 +110,10 @@ defmodule KVServer.TxManager do
 
   defp commit(txid, expected_acks, ttl) do
     acks = KVStore.Router.route_all(KVStore.Registry, :commit, [txid])
-    Logger.debug("Received acks when commiting #{inspect(acks)}, expected #{inspect(expected_acks)}")
+
+    Logger.debug(
+      "Received acks when commiting #{inspect(acks)}, expected #{inspect(expected_acks)}"
+    )
 
     if ttl > 0 do
       case length(acks) do

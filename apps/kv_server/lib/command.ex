@@ -10,6 +10,7 @@ defmodule KVServer.Command do
     KVServer.TxManager.manage_transaction(tx, fn txid ->
       KVStore.Router.route_all(KVStore.Registry, :create, [table, {tx, txid}])
     end)
+
     {:ok, "OK: Table created\r\n"}
   end
 
@@ -18,14 +19,16 @@ defmodule KVServer.Command do
       # route to the node according to the key
       KVStore.Router.route(key, KVStore.Registry, :put, [table, key, value, {tx, txid}])
     end)
+
     {:ok, "OK: Value stored\r\n"}
   end
 
   def run({:get, tx, table, key}) do
     case KVServer.TxManager.manage_transaction(tx, fn txid ->
-      KVStore.Router.route(key, KVStore.Registry, :get, [table, key, {tx, txid}]) end) do
-        {:ok, value} -> {:ok, "OK: #{value}\r\n"}
-        {:error, _} -> {:ok, "ERROR: value in table #{table} with the key #{key} not found\r\n"}
+           KVStore.Router.route(key, KVStore.Registry, :get, [table, key, {tx, txid}])
+         end) do
+      {:ok, value} -> {:ok, "OK: #{value}\r\n"}
+      {:error, _} -> {:ok, "ERROR: value in table #{table} with the key #{key} not found\r\n"}
     end
   end
 
@@ -33,7 +36,8 @@ defmodule KVServer.Command do
     KVServer.TxManager.manage_transaction(tx, fn txid ->
       KVStore.Router.route(key, KVStore.Registry, :delete, [table, key, {tx, txid}])
     end)
-  {:ok, "OK: Value deleted\r\n"}
+
+    {:ok, "OK: Value deleted\r\n"}
   end
 
   # curr state vs prev state
@@ -51,10 +55,16 @@ defmodule KVServer.Command do
   # curr state vs prev state
   def run({:end_transaction, :transaction}) do
     Logger.debug("Ending a transaction")
+
     case KVServer.TxManager.end_transaction() do
-      {:ok, txid} -> {:ok, "OK: transaction #{inspect(txid)} ended\r\n"}
-      {:prepare_fail, txid} -> {:ok, "ERROR: Could not get all nodes to agree in tx #{inspect(txid)}\r\n"}
-      {:commit_fail, txid} -> {:ok, "ERROR: Could not get all nodes to commit in tx #{inspect(txid)}\r\n"}
+      {:ok, txid} ->
+        {:ok, "OK: transaction #{inspect(txid)} ended\r\n"}
+
+      {:prepare_fail, txid} ->
+        {:ok, "ERROR: Could not get all nodes to agree in tx #{inspect(txid)}\r\n"}
+
+      {:commit_fail, txid} ->
+        {:ok, "ERROR: Could not get all nodes to commit in tx #{inspect(txid)}\r\n"}
     end
   end
 
@@ -62,7 +72,6 @@ defmodule KVServer.Command do
   def run({:end_transaction, :no_transaction}) do
     raise "Cannot end a transaction that is not started"
   end
-
 
   # defp lookup_table(table, callback) do
   #   case KVStore.Router.route_all(table, :not_important, KVStore.Registry, :lookup, [KVStore.Registry, table, key]) do

@@ -82,7 +82,7 @@ defmodule KVStore.Registry do
     {:ok, {tables, refs, txs}}
   end
 
-  ##-------------transactional---------------
+  ## -------------transactional---------------
 
   # transactional
   @impl true
@@ -110,7 +110,7 @@ defmodule KVStore.Registry do
   def handle_call({:delete, table, key, {:transaction, txid}}, _from, {tables, refs, txs}) do
     Logger.debug("Writing down delete key=#{inspect(key)} in a transaction #{inspect(txid)}")
     tx_list = Map.get(txs, txid) || []
-    txs = Map.put(txs, txid,  tx_list ++ [{:do_delete, [table, key, {tables, refs, %{}}]}])
+    txs = Map.put(txs, txid, tx_list ++ [{:do_delete, [table, key, {tables, refs, %{}}]}])
     {:reply, :ok, {tables, refs, txs}}
   end
 
@@ -198,7 +198,7 @@ defmodule KVStore.Registry do
         {:ok, pid} = DynamicSupervisor.start_child(KVStore.TableSupervisor, KVStore.Table)
         ref = Process.monitor(pid)
         refs = Map.put(refs, ref, name)
-        #@todo fix bc doesnt make sense tureti name ir pid
+        # @todo fix bc doesnt make sense tureti name ir pid
         :ets.insert(tables, {name, pid})
         Logger.debug("Table created")
         {:reply, pid, {tables, refs, %{}}}
@@ -210,7 +210,7 @@ defmodule KVStore.Registry do
 
     case KVStore.Validator.lookup(tables, table) do
       {:ok, pid} ->
-        #@todo fix nes neturetu veikti, pid gali but any process?
+        # @todo fix nes neturetu veikti, pid gali but any process?
         case KVStore.Table.get(pid, key) do
           nil -> {:reply, {:error, nil}, {tables, refs, %{}}}
           value -> {:reply, {:ok, value}, {tables, refs, %{}}}
@@ -241,6 +241,7 @@ defmodule KVStore.Registry do
     Logger.debug(
       "Attempting to put a record key=#{inspect(key)} value=#{inspect(value)} to table #{inspect(table)}"
     )
+
     case KVStore.Validator.lookup(tables, table) do
       {:ok, pid} ->
         KVStore.Table.put(pid, key, value)
