@@ -60,6 +60,6 @@ defmodule KVStore.Router do
   end
 
   def nodes do
-    for name <- Node.list(:known), name != :nonode@nohost, do: name
+    for name <- Node.list(), name != :nonode@nohost, do: name
   end
 end

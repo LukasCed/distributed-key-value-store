@@ -1,17 +1,17 @@
 @!@!@STARTMSG 2262:0 @!@!@
-TLC2 Version 2.18 of Day Month 20?? (rev: e880daa)
+TLC2 Version 2.18 of Day Month 20?? (rev: f85f396)
 @!@!@ENDMSG 2262 @!@!@
 @!@!@STARTMSG 2187:0 @!@!@
-Running breadth-first search Model-Checking with fp 46 and seed 135210401313983930 with 1 worker on 8 cores with 3616MB heap and 64MB offheap memory [pid: 16436] (Windows 10 10.0 amd64, Oracle Corporation 11.0.13 x86_64, MSBDiskFPSet, DiskStateQueue).
+Running breadth-first search Model-Checking with fp 100 and seed 6848296683317983013 with 1 worker on 8 cores with 3616MB heap and 64MB offheap memory [pid: 3720] (Windows 10 10.0 amd64, Oracle Corporation 11.0.13 x86_64, MSBDiskFPSet, DiskStateQueue).
 @!@!@ENDMSG 2187 @!@!@
 @!@!@STARTMSG 2220:0 @!@!@
 Starting SANY...
 @!@!@ENDMSG 2220 @!@!@
 Parsing file C:\Users\Lukas\Desktop\STUDIJOS\III semester\distributed systems\kv\TLA\kv_syst.tla (file:/c:/Users/Lukas/Desktop/STUDIJOS/III%20semester/distributed%20systems/kv/TLA/kv_syst.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-2840466021088874466\TLC.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.106/tools/tla2tools.jar!/tla2sany/StandardModules/TLC.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-2840466021088874466\Naturals.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.106/tools/tla2tools.jar!/tla2sany/StandardModules/Naturals.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-2840466021088874466\Sequences.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.106/tools/tla2tools.jar!/tla2sany/StandardModules/Sequences.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-2840466021088874466\FiniteSets.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.106/tools/tla2tools.jar!/tla2sany/StandardModules/FiniteSets.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-6811713430907351867\TLC.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1606/tools/tla2tools.jar!/tla2sany/StandardModules/TLC.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-6811713430907351867\Naturals.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1606/tools/tla2tools.jar!/tla2sany/StandardModules/Naturals.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-6811713430907351867\Sequences.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1606/tools/tla2tools.jar!/tla2sany/StandardModules/Sequences.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-6811713430907351867\FiniteSets.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1606/tools/tla2tools.jar!/tla2sany/StandardModules/FiniteSets.tla)
 Semantic processing of module Naturals
 Semantic processing of module Sequences
 Semantic processing of module FiniteSets
@@ -21,11 +21,8 @@ Semantic processing of module kv_syst
 SANY finished.
 @!@!@ENDMSG 2219 @!@!@
 @!@!@STARTMSG 2185:0 @!@!@
-Starting... (2022-11-02 08:55:26)
+Starting... (2022-11-16 22:41:57)
 @!@!@ENDMSG 2185 @!@!@
-@!@!@STARTMSG 2212:0 @!@!@
-Implied-temporal checking--satisfiability problem has 1 branches.
-@!@!@ENDMSG 2212 @!@!@
 @!@!@STARTMSG 2189:0 @!@!@
 Computing initial states...
 @!@!@ENDMSG 2189 @!@!@
@@ -92,344 +89,25 @@ Computed 1048576 initial states...
 @!@!@STARTMSG 2269:0 @!@!@
 Computed 2097152 initial states...
 @!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2190:0 @!@!@
-Finished computing initial states: 2125764 distinct states generated at 2022-11-02 08:55:35.
-@!@!@ENDMSG 2190 @!@!@
-@!@!@STARTMSG 1000:1 @!@!@
-TLC threw an unexpected exception.
-This was probably caused by an error in the spec or model.
-See the User Output or TLC Console for clues to what happened.
-The exception was a java.lang.RuntimeException
-: Attempted to check equality of record:
-[nv |-> NULL]
-with non-record
-(k_1 :> v_1 @@ k_2 :> v_1 @@ NULL :> v_1)
-@!@!@ENDMSG 1000 @!@!@
-@!@!@STARTMSG 2121:1 @!@!@
-The behavior up to this point is:
-@!@!@ENDMSG 2121 @!@!@
-@!@!@STARTMSG 2217:4 @!@!@
-1: <Initial predicate>
-/\ msgs = {}
-/\ proc = (n_1 :> (t_1 :> (k_1 :> v_1 @@ k_2 :> v_1 @@ NULL :> v_1) @@ t_2 :> (k_1 :> v_1 @@ k_2 :> v_1 @@ NULL :> v_1)) @@ n_2 :> (t_1 :> (k_1 :> v_1 @@ k_2 :> v_1 @@ NULL :> v_1) @@ t_2 :> (k_1 :> v_1 @@ k_2 :> v_1 @@ NULL :> v_1)))
-/\ transactions = {}
-/\ routes = (k_1 :> n_1 @@ k_2 :> n_1)
-
-@!@!@ENDMSG 2217 @!@!@
-@!@!@STARTMSG 2103:1 @!@!@
-The error occurred when TLC was evaluating the nested
-expressions at the following positions:
-0. Line 136, column 21 to line 136, column 24 in kv_syst
-1. Line 135, column 10 to line 135, column 226 in kv_syst
-2. Line 135, column 26 to line 135, column 226 in kv_syst
-3. Line 135, column 26 to line 135, column 197 in kv_syst
-4. Line 135, column 172 to line 135, column 197 in kv_syst
-5. Line 112, column 31 to line 117, column 25 in kv_syst
-6. Line 113, column 9 to line 117, column 25 in kv_syst
-7. Line 115, column 12 to line 115, column 80 in kv_syst
-
-
-@!@!@ENDMSG 2103 @!@!@
-@!@!@STARTMSG 2201:0 @!@!@
-The coverage statistics at 2022-11-02 08:55:35
-@!@!@ENDMSG 2201 @!@!@
-@!@!@STARTMSG 2773:0 @!@!@
-<Init line 44, col 1 to line 44, col 4 of module kv_syst>: 2125764:2125764
-@!@!@ENDMSG 2773 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 45, col 8 to line 45, col 25 of module kv_syst: 1
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 46, col 8 to line 46, col 24 of module kv_syst: 531441
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2775:0 @!@!@
-  line 47, col 8 to line 47, col 16 of module kv_syst: 531441:2125764
-@!@!@ENDMSG 2775 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 48, col 8 to line 48, col 24 of module kv_syst: 2125764
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 48, col 19 to line 48, col 24 of module kv_syst: 531441
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2772:0 @!@!@
-<RcvNodeCreate line 50, col 1 to line 50, col 16 of module kv_syst>: 0:0
-@!@!@ENDMSG 2772 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 51, col 14 to line 58, col 41 of module kv_syst: 1
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 52, col 17 to line 58, col 41 of module kv_syst: 1
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  ||line 52, col 20 to line 52, col 39 of module kv_syst: 27
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  ||line 53, col 20 to line 53, col 41 of module kv_syst: 2
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  ||line 55, col 20 to line 55, col 68 of module kv_syst: 1
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |||line 55, col 20 to line 55, col 24 of module kv_syst: 1
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |||line 55, col 28 to line 55, col 68 of module kv_syst: 2
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  ||line 56, col 20 to line 56, col 37 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |||line 56, col 28 to line 56, col 37 of module kv_syst: 1
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  ||line 57, col 20 to line 57, col 35 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  ||line 58, col 20 to line 58, col 41 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 51, col 24 to line 51, col 27 of module kv_syst: 27
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 50, col 30 to line 50, col 34 of module kv_syst: 26
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2772:0 @!@!@
-<RcvNodeGet line 60, col 1 to line 60, col 13 of module kv_syst (61 9 68 33)>: 0:8
-@!@!@ENDMSG 2772 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 61, col 12 to line 61, col 26 of module kv_syst: 58
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 61, col 12 to line 61, col 17 of module kv_syst: 50
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 62, col 12 to line 62, col 30 of module kv_syst: 56
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 62, col 12 to line 62, col 22 of module kv_syst: 48
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 63, col 12 to line 63, col 28 of module kv_syst: 24
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 63, col 12 to line 63, col 12 of module kv_syst: 16
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 63, col 16 to line 63, col 28 of module kv_syst: 16
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 65, col 12 to line 65, col 29 of module kv_syst: 8
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 66, col 12 to line 66, col 25 of module kv_syst: 8
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 67, col 12 to line 67, col 27 of module kv_syst: 8
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 68, col 12 to line 68, col 33 of module kv_syst: 8
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2772:0 @!@!@
-<RcvNodePut line 71, col 1 to line 71, col 13 of module kv_syst (72 9 79 33)>: 0:8
-@!@!@ENDMSG 2772 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 72, col 12 to line 72, col 26 of module kv_syst: 58
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 72, col 12 to line 72, col 17 of module kv_syst: 50
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 73, col 12 to line 73, col 30 of module kv_syst: 56
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 73, col 12 to line 73, col 22 of module kv_syst: 48
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 74, col 12 to line 74, col 28 of module kv_syst: 24
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 74, col 12 to line 74, col 12 of module kv_syst: 16
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 74, col 16 to line 74, col 28 of module kv_syst: 16
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 76, col 12 to line 76, col 63 of module kv_syst: 8
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 77, col 12 to line 77, col 29 of module kv_syst: 8
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 78, col 12 to line 78, col 27 of module kv_syst: 8
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 79, col 12 to line 79, col 33 of module kv_syst: 8
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2772:0 @!@!@
-<RcvNodeDelete line 82, col 1 to line 82, col 16 of module kv_syst (83 9 92 33)>: 0:8
-@!@!@ENDMSG 2772 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 83, col 12 to line 83, col 26 of module kv_syst: 58
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 83, col 12 to line 83, col 17 of module kv_syst: 50
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 84, col 12 to line 84, col 33 of module kv_syst: 56
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 84, col 12 to line 84, col 22 of module kv_syst: 48
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 85, col 12 to line 85, col 28 of module kv_syst: 24
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 85, col 12 to line 85, col 12 of module kv_syst: 16
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 85, col 16 to line 85, col 28 of module kv_syst: 16
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 87, col 12 to line 87, col 58 of module kv_syst: 8
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 90, col 12 to line 90, col 29 of module kv_syst: 8
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 91, col 12 to line 91, col 27 of module kv_syst: 8
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 92, col 12 to line 92, col 33 of module kv_syst: 8
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2772:0 @!@!@
-<RcvNodeTransactionCommit line 94, col 1 to line 94, col 27 of module kv_syst>: 0:0
-@!@!@ENDMSG 2772 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 98, col 12 to line 98, col 29 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 99, col 12 to line 99, col 78 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 100, col 12 to line 100, col 27 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 101, col 12 to line 101, col 25 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 94, col 41 to line 94, col 45 of module kv_syst: 25
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 94, col 54 to line 94, col 65 of module kv_syst: 25
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2772:0 @!@!@
-<RcvNodeTransactionAbort line 103, col 1 to line 103, col 26 of module kv_syst>: 0:0
-@!@!@ENDMSG 2772 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 107, col 12 to line 107, col 29 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 108, col 12 to line 108, col 78 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 109, col 12 to line 109, col 27 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 110, col 12 to line 110, col 25 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 103, col 40 to line 103, col 44 of module kv_syst: 25
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 103, col 53 to line 103, col 64 of module kv_syst: 25
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2772:0 @!@!@
-<RcvNodeTransactionStart line 112, col 1 to line 112, col 26 of module kv_syst (113 9 117 25)>: 2:2
-@!@!@ENDMSG 2772 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 113, col 12 to line 113, col 33 of module kv_syst: 52
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 113, col 12 to line 113, col 17 of module kv_syst: 50
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 114, col 12 to line 114, col 29 of module kv_syst: 2
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 115, col 12 to line 115, col 80 of module kv_syst: 2
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 116, col 12 to line 116, col 27 of module kv_syst: 2
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 117, col 12 to line 117, col 25 of module kv_syst: 2
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2772:0 @!@!@
-<RcvNodeTransactionJoin line 119, col 1 to line 119, col 25 of module kv_syst>: 0:0
-@!@!@ENDMSG 2772 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 123, col 12 to line 123, col 29 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 124, col 12 to line 124, col 87 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 125, col 12 to line 125, col 27 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 126, col 12 to line 126, col 25 of module kv_syst: 0
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 119, col 39 to line 119, col 43 of module kv_syst: 25
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 119, col 52 to line 119, col 63 of module kv_syst: 25
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2772:0 @!@!@
-<Send line 129, col 1 to line 129, col 7 of module kv_syst>: 26:26
-@!@!@ENDMSG 2772 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 130, col 12 to line 130, col 32 of module kv_syst: 26
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |line 130, col 20 to line 130, col 32 of module kv_syst: 26
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  ||line 130, col 20 to line 130, col 23 of module kv_syst: 26
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2775:0 @!@!@
-  ||line 130, col 30 to line 130, col 32 of module kv_syst: 26:52
-@!@!@ENDMSG 2775 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  |||line 130, col 31 to line 130, col 31 of module kv_syst: 26
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 131, col 12 to line 131, col 25 of module kv_syst: 26
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 132, col 12 to line 132, col 27 of module kv_syst: 26
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 133, col 12 to line 133, col 33 of module kv_syst: 26
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2774:0 @!@!@
-<TypeInvariant line 24, col 1 to line 24, col 13 of module kv_syst>
-@!@!@ENDMSG 2774 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 25, col 5 to line 27, col 24 of module kv_syst: 2125792
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2202:0 @!@!@
-End of statistics.
-@!@!@ENDMSG 2202 @!@!@
-@!@!@STARTMSG 2200:0 @!@!@
-Progress(2) at 2022-11-02 08:55:35: 2,125,816 states generated (13,004,584 s/min), 2,125,792 distinct states found (13,004,437 ds/min), 2,125,791 states left on queue.
-@!@!@ENDMSG 2200 @!@!@
-@!@!@STARTMSG 2199:0 @!@!@
-2125816 states generated, 2125792 distinct states found, 2125791 states left on queue.
-@!@!@ENDMSG 2199 @!@!@
-@!@!@STARTMSG 2194:0 @!@!@
-The depth of the complete state graph search is 2.
-@!@!@ENDMSG 2194 @!@!@
-@!@!@STARTMSG 2186:0 @!@!@
-Finished in 9819ms at (2022-11-02 08:55:36)
-@!@!@ENDMSG 2186 @!@!@
+@!@!@STARTMSG 2269:0 @!@!@
+Computed 4194304 initial states...
+@!@!@ENDMSG 2269 @!@!@
+@!@!@STARTMSG 2269:0 @!@!@
+Computed 8388608 initial states...
+@!@!@ENDMSG 2269 @!@!@
+@!@!@STARTMSG 2269:0 @!@!@
+Computed 16777216 initial states...
+@!@!@ENDMSG 2269 @!@!@
+@!@!@STARTMSG 2269:0 @!@!@
+Computed 33554432 initial states...
+@!@!@ENDMSG 2269 @!@!@
+@!@!@STARTMSG 2269:0 @!@!@
+Computed 67108864 initial states...
+@!@!@ENDMSG 2269 @!@!@
+@!@!@STARTMSG 2269:0 @!@!@
+Computed 134217728 initial states...
+@!@!@ENDMSG 2269 @!@!@
+@!@!@STARTMSG 2127:1 @!@!@
+when writing the disk (StatePoolWriter.run):
+There is not enough space on the disk
+@!@!@ENDMSG 2127 @!@!@
