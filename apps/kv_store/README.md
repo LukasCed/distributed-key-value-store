@@ -50,3 +50,9 @@ _build/prod/rel/foo/bin/foo start
 ```bash
 _build/prod/rel/bar/bin/bar start
 ```
+
+## To run tests
+
+```bash
+elixir --sname foo -S mix test apps/kv_server/test/transaction_test.exs
+```
