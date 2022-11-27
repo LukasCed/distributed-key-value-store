@@ -49,8 +49,11 @@ TypeInvariant ==
 NodesAlwaysHaveDifferentKeysInvariant == \A p \in Processes, t \in Tables, n1, n2 \in Nodes:
     /\ \A k \in DOMAIN p[n1][t] : \E l \in DOMAIN p[n2][t] : l = k => n1 = n2
 
-TxTerminationProperty == \A n \in Nodes: TxManager[n].type = "ongoing" ~> TxManager[n].type \in {"commited", "aborted"}
+TxTerminationProperty == \A n \in Nodes: txmanager[n].type = "ongoing" ~> txmanager[n].type \in {"commited", "aborted"}
 
+\* atomic property:
+\* if transaction is commited, then everything stored in log is flushed to tables
+\* if transaction is not commited, then nothing from log is flushed to tables
 Init ==
     /\ proc \in Processes
     /\ msgs = {}
@@ -159,11 +162,15 @@ CommitTransactions == \A txm \in txmanager, n \in Nodes:
         /\ ackmanager[n][txm[n]] = {"ack_prepare", "ack_commit"}
         /\ txm[n].type = "ongoing"
         /\ txmanager = [txmanager EXCEPT ![n] = [type |-> "commited", txid |-> txm[n].txid]]  
+        /\ UNCHANGED proc
+        /\ UNCHANGED routes
 
 AbortTransactions == \E txm \in txmanager, n \in Nodes, ack \in ackmanager:
         /\ ackmanager[n][txm[n]] = {"ack_prepare", "ack_commit"}
         /\ txm[n].type = "ongoing"
         /\ txmanager = [txmanager EXCEPT ![n] = [type |-> "aborted", txid |-> txm[n].txid]]  
+        /\ UNCHANGED proc
+        /\ UNCHANGED routes
 
 Send(m) == 
         /\ msgs' = msgs \cup {m}

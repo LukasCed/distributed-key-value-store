@@ -1,17 +1,17 @@
 @!@!@STARTMSG 2262:0 @!@!@
-TLC2 Version 2.18 of Day Month 20?? (rev: f85f396)
+TLC2 Version 2.18 of Day Month 20?? (rev: e7c0763)
 @!@!@ENDMSG 2262 @!@!@
 @!@!@STARTMSG 2187:0 @!@!@
-Running breadth-first search Model-Checking with fp 100 and seed 6848296683317983013 with 1 worker on 8 cores with 3616MB heap and 64MB offheap memory [pid: 3720] (Windows 10 10.0 amd64, Oracle Corporation 11.0.13 x86_64, MSBDiskFPSet, DiskStateQueue).
+Running breadth-first search Model-Checking with fp 8 and seed -4005951064829211161 with 1 worker on 8 cores with 3616MB heap and 64MB offheap memory [pid: 16912] (Windows 10 10.0 amd64, Oracle Corporation 11.0.13 x86_64, MSBDiskFPSet, DiskStateQueue).
 @!@!@ENDMSG 2187 @!@!@
 @!@!@STARTMSG 2220:0 @!@!@
 Starting SANY...
 @!@!@ENDMSG 2220 @!@!@
 Parsing file C:\Users\Lukas\Desktop\STUDIJOS\III semester\distributed systems\kv\TLA\kv_syst.tla (file:/c:/Users/Lukas/Desktop/STUDIJOS/III%20semester/distributed%20systems/kv/TLA/kv_syst.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-6811713430907351867\TLC.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1606/tools/tla2tools.jar!/tla2sany/StandardModules/TLC.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-6811713430907351867\Naturals.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1606/tools/tla2tools.jar!/tla2sany/StandardModules/Naturals.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-6811713430907351867\Sequences.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1606/tools/tla2tools.jar!/tla2sany/StandardModules/Sequences.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-6811713430907351867\FiniteSets.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1606/tools/tla2tools.jar!/tla2sany/StandardModules/FiniteSets.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-9802752331064254845\TLC.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1706/tools/tla2tools.jar!/tla2sany/StandardModules/TLC.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-9802752331064254845\Naturals.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1706/tools/tla2tools.jar!/tla2sany/StandardModules/Naturals.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-9802752331064254845\Sequences.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1706/tools/tla2tools.jar!/tla2sany/StandardModules/Sequences.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-9802752331064254845\FiniteSets.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1706/tools/tla2tools.jar!/tla2sany/StandardModules/FiniteSets.tla)
 Semantic processing of module Naturals
 Semantic processing of module Sequences
 Semantic processing of module FiniteSets
@@ -21,8 +21,11 @@ Semantic processing of module kv_syst
 SANY finished.
 @!@!@ENDMSG 2219 @!@!@
 @!@!@STARTMSG 2185:0 @!@!@
-Starting... (2022-11-16 22:41:57)
+Starting... (2022-11-17 19:16:23)
 @!@!@ENDMSG 2185 @!@!@
+@!@!@STARTMSG 2212:0 @!@!@
+Implied-temporal checking--satisfiability problem has 2 branches.
+@!@!@ENDMSG 2212 @!@!@
 @!@!@STARTMSG 2189:0 @!@!@
 Computing initial states...
 @!@!@ENDMSG 2189 @!@!@
@@ -89,25 +92,3 @@ Computed 1048576 initial states...
 @!@!@STARTMSG 2269:0 @!@!@
 Computed 2097152 initial states...
 @!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 4194304 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 8388608 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 16777216 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 33554432 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 67108864 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 134217728 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2127:1 @!@!@
-when writing the disk (StatePoolWriter.run):
-There is not enough space on the disk
-@!@!@ENDMSG 2127 @!@!@

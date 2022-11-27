@@ -1,11 +1,20 @@
 defmodule KVStoreTest do
   use ExUnit.Case
+  require :rpc
 
   @moduletag :capture_log
 
   setup do
-    Application.stop(:kv_store)
-    :ok = Application.start(:kv_store)
+    :ok = LocalCluster.start()
+    nodes = LocalCluster.start_nodes("dsn-", 3, applications: [])
+    [n1, n2, n3] = nodes
+    assert Node.ping(n1) == :pong
+    assert Node.ping(n2) == :pong
+    assert Node.ping(n3) == :pong
+
+    # iskviesti rpc modulius kiekvienam nodui
+    # setenv(persistent=True) kiekvienam nodui (port)
+    # erlango env variables
   end
 
   setup do
