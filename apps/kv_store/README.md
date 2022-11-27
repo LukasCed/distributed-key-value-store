@@ -56,3 +56,7 @@ _build/prod/rel/bar/bin/bar start
 ```bash
 elixir --sname foo -S mix test apps/kv_server/test/transaction_test.exs
 ```
+
+```bash
+mix test apps/kv_server/test/transaction_test.exs --no-start
+```

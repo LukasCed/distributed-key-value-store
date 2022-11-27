@@ -3,12 +3,26 @@ defmodule KVStoreTest do
 
   @moduletag :capture_log
 
-  setup do
-    Application.stop(:kv_store)
-    :ok = Application.start(:kv_store)
-  end
+  # setup do
+  #   Application.stop(:kv_store)
+  #   :ok = Application.ensure_all_started(:kv_store)
+  # end
 
   setup do
+    :ok = LocalCluster.start()
+    nodes = LocalCluster.start_nodes("dsn-", 3, applications: [])
+    [n1, n2, n3] = nodes
+    assert Node.ping(n1) == :pong
+    assert Node.ping(n2) == :pong
+    assert Node.ping(n3) == :pong
+
+    :rpc.call(n1, Application, :ensure_all_started, [:kv_store])
+    :rpc.call(n2, Application, :ensure_all_started, [:kv_store])
+
+    :rpc.call(n3, Application, :put_env, [:kv_server, :port, 4040, persistent: true])
+    :rpc.call(n3, Application, :ensure_all_started, [:kv_server])
+
+
     opts = [:binary, packet: :line, active: false]
     {:ok, socket} = :gen_tcp.connect('localhost', 4040, opts)
     %{socket: socket}

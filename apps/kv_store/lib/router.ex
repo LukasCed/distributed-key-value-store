@@ -60,6 +60,6 @@ defmodule KVStore.Router do
   end
 
   def nodes do
-    for name <- MapSet.to_list(MapSet.union(MapSet.new(Node.list(:known)), MapSet.new(Node.list(:visible)))), name != :nonode@nohost, do: name
+    for name <- MapSet.to_list(MapSet.union(MapSet.new(Node.list(:known)), MapSet.new(Node.list(:visible)))), name != :nonode@nohost and name != :"manager@127.0.0.1", do: name
   end
 end
