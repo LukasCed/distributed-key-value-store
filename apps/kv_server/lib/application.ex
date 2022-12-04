@@ -14,7 +14,7 @@ defmodule KVServer.Application do
       # {KVServer.Worker, arg}
       {Task.Supervisor, name: KVServer.TaskSupervisor},
       Supervisor.child_spec({Task, fn -> KVServer.accept(port) end}, restart: :permanent),
-      {KVServer.TxManager, name: KVServer.TxManager}
+      {KVServer.CoordinatorNode, name: KVServer.CoordinatorNode}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
