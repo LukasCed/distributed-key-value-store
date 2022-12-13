@@ -5,9 +5,6 @@ defmodule KVServer.CoordinatorNode do
 
   # ---------------------------- interface ----------------------------
 
-  defmodule State do
-    defstruct [:tx_active, :tx_buffer]
-  end
 
   def perform(op) do
     GenServer.call(__MODULE__, op)
@@ -19,6 +16,11 @@ defmodule KVServer.CoordinatorNode do
 
   @impl true
   def init(_) do
+    {msg, state} = KVServer.ThreePcCoordinator.read_log()
+    if state.tx_active == true and msg == "PHASE23" do
+      KVServer.ThreePcCoordinator.transaction("new_tx_id", state.tx_buffer)
+    end
+
     {:ok, %State{tx_active: False, tx_buffer: []}}
   end
 

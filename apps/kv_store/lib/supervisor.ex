@@ -9,7 +9,7 @@ defmodule KVStore.Supervisor do
   def init(:ok) do
     children = [
       {DynamicSupervisor, name: KVStore.TableSupervisor, strategy: :one_for_one},
-      {KVStore.Node, name: KVStore.Node}
+      {KVStore.Node, name: Node.self()}
     ]
 
     Supervisor.init(children, strategy: :one_for_all)

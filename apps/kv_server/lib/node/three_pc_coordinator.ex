@@ -6,15 +6,15 @@ defmodule KVServer.ThreePcCoordinator do
     Logger.debug("Sending init from the coordinator")
     acks = broadcast(:init, {tx_id, query_list}) # retransmit on timeout?
     if Enum.all?(acks, fn x -> x == :agree end) do
-      write_phase12(tx_id)
+      write_log(tx_id, "PHASE12")
       Logger.debug("Sending prepare from the coordinator")
       acks = broadcast(:prepare, tx_id)  # retransmit on timeout?
       if Enum.all?(acks, fn x -> x == :agree end) do
-        write_phase23(tx_id)
+        write_log(tx_id, "PHASE23")
         Logger.debug("Sending commit from the coordinator")
         acks = broadcast(:commit, tx_id)  # retransmit on timeout?
         if Enum.all?(acks, fn x -> x == :agree end) do
-          write_complete(tx_id)
+          write_log(tx_id, "COMPLETE")
           :commit_success
         end
       end
@@ -22,26 +22,14 @@ defmodule KVServer.ThreePcCoordinator do
 
     Logger.debug("Sending abort from the coordinator")
     broadcast(:abort, tx_id)  # retransmit on timeout?
-    write_complete(tx_id)
+    write_log(tx_id, "COMPLETE")
     :commit_failure
   end
 
-  defp write_phase12(_state) do
-    Logger.debug("Writing phase12 log from coordinator")
+  defp write_log(state, msg) do
+    Logger.debug("Writing #{inspect(msg)} log from coordinator")
     mkdir_if_not_exists("coordinator")
-    File.write("db_logs/coordinator/tx_manager_log", "state here" <> ";" <> "PHASE12" <> "\r\n", [:append])
-  end
-
-  defp write_phase23(_state) do
-    Logger.debug("Writing phase23 log from coordinator")
-    mkdir_if_not_exists("coordinator")
-    File.write("db_logs/coordinator/tx_manager_log", "state here" <> ";" <> "PHASE23" <> "\r\n", [:append])
-  end
-
-  defp write_complete(_state) do
-    Logger.debug("Writing complete log from coordinator")
-    mkdir_if_not_exists("coordinator")
-    File.write("db_logs/coordinator/tx_manager_log", "state here" <> ";" <> "COMPLETE" <> "\r\n", [:append])
+    File.write("db_logs/coordinator/tx_manager_log", :erlang.term_to_binary(state) <> ";" <> msg <> "\r\n", [:append])
   end
 
   def broadcast(msg, args) do
@@ -51,5 +39,18 @@ defmodule KVServer.ThreePcCoordinator do
   defp mkdir_if_not_exists(path) do
     dir_path = Path.absname("db_logs" <> "/" <> to_string(path))
     File.mkdir_p(dir_path)
+  end
+
+  def read_log() do
+    mkdir_if_not_exists("db_logs/coordinator")
+    file_path = Path.absname("db_logs/coordinator/tx_manager_log")
+    if not File.exists?(file_path) do
+      %State{tx_active: False, tx_buffer: []}
+    end
+
+    {:ok, logs} = File.read(file_path)
+    contents = List.last(logs |> String.split("\r\n", trim: true))
+    [binary_term, msg] = contents |> String.split(";", trim: true)
+    {msg, :erlang.binary_to_term(binary_term)}
   end
 end
