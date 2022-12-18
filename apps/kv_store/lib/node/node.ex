@@ -21,10 +21,10 @@ defmodule KVStore.Node do
   ## --------------------------------- Server callbacks ---------------------------------
   @impl true
   def init(node) do
-    state = KVStore.ThreePcParticipant.read_log(node)
+    %{current_tx: tx} = KVStore.ThreePcParticipant.read_log(node)
 
-    if state.current_tx.status == :prepare do
-      KVStore.ThreePcParticipant.commit(state.current_x.query_list, node)
+    if tx != nil and tx.status == :prepare do
+      KVStore.ThreePcParticipant.commit(tx.query_list, node)
     end
 
     {:ok, %{current_tx: nil}}

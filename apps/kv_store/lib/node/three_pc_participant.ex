@@ -48,14 +48,16 @@ defmodule KVStore.ThreePcParticipant do
   def read_log(path) do
     mkdir_if_not_exists(path)
     file_path = Path.absname("db_logs" <> "/" <> to_string(path) <> "/" <> "tx_participant_log")
+    Logger.debug("Loading state from #{inspect(file_path)} in the participant node")
     if not File.exists?(file_path) do
       %{current_tx: nil}
+    else
+      {:ok, logs} = File.read(file_path)
+      contents = List.last(logs |> String.split("\r\n", trim: true))
+      [_tx_id, binary_term, _msg] = contents |> String.split(";", trim: true)
+      :erlang.binary_to_term(binary_term)
     end
 
-    {:ok, logs} = File.read(file_path)
-    contents = List.last(logs |> String.split("\r\n", trim: true))
-    [_tx_id, binary_term, _msg] = contents |> String.split(";", trim: true)
-    :erlang.binary_to_term(binary_term)
   end
 
   def commit(query_list, path) do

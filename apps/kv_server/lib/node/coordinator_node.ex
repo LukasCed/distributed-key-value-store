@@ -16,9 +16,9 @@ defmodule KVServer.CoordinatorNode do
 
   @impl true
   def init(_) do
-    {msg, state} = KVServer.ThreePcCoordinator.read_log()
-    if state.tx_active == true and msg == "PHASE23" do
-      KVServer.ThreePcCoordinator.transaction("new_tx_id", state.tx_buffer)
+    {msg,  %State{tx_active: tx_active, tx_buffer: tx_buffer}} = KVServer.ThreePcCoordinator.read_log()
+    if tx_active == true and msg == "PHASE23" do
+      KVServer.ThreePcCoordinator.transaction("new_tx_id", tx_buffer)
     end
 
     {:ok, %State{tx_active: False, tx_buffer: []}}

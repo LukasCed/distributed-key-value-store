@@ -6,15 +6,15 @@ defmodule KVServer.ThreePcCoordinator do
     Logger.debug("Sending init from the coordinator")
     acks = broadcast(:init, {tx_id, query_list}) # retransmit on timeout?
     if Enum.all?(acks, fn x -> x == :agree end) do
-      write_log(tx_id, "PHASE12")
+      write_log(tx_id, query_list, "PHASE12")
       Logger.debug("Sending prepare from the coordinator")
       acks = broadcast(:prepare, tx_id)  # retransmit on timeout?
       if Enum.all?(acks, fn x -> x == :agree end) do
-        write_log(tx_id, "PHASE23")
+        write_log(tx_id, query_list, "PHASE23")
         Logger.debug("Sending commit from the coordinator")
         acks = broadcast(:commit, tx_id)  # retransmit on timeout?
         if Enum.all?(acks, fn x -> x == :agree end) do
-          write_log(tx_id, "COMPLETE")
+          write_log(tx_id, query_list, "COMPLETE")
           :commit_success
         end
       end
@@ -22,11 +22,12 @@ defmodule KVServer.ThreePcCoordinator do
 
     Logger.debug("Sending abort from the coordinator")
     broadcast(:abort, tx_id)  # retransmit on timeout?
-    write_log(tx_id, "COMPLETE")
+    write_log(tx_id, {:ok, %State{tx_active: False, tx_buffer: []}}, "COMPLETE")
     :commit_failure
   end
 
-  defp write_log(state, msg) do
+  defp write_log(_tx_id, query_list, msg) do
+    state = %State{tx_active: True, tx_buffer: query_list}
     Logger.debug("Writing #{inspect(msg)} log from coordinator")
     mkdir_if_not_exists("coordinator")
     File.write("db_logs/coordinator/tx_manager_log", :erlang.term_to_binary(state) <> ";" <> msg <> "\r\n", [:append])
@@ -44,13 +45,15 @@ defmodule KVServer.ThreePcCoordinator do
   def read_log() do
     mkdir_if_not_exists("db_logs/coordinator")
     file_path = Path.absname("db_logs/coordinator/tx_manager_log")
-    if not File.exists?(file_path) do
-      %State{tx_active: False, tx_buffer: []}
-    end
+    Logger.debug("Loading state from #{inspect(file_path)} in the coordinator node")
 
-    {:ok, logs} = File.read(file_path)
-    contents = List.last(logs |> String.split("\r\n", trim: true))
-    [binary_term, msg] = contents |> String.split(";", trim: true)
-    {msg, :erlang.binary_to_term(binary_term)}
+    if not File.exists?(file_path) do
+      {"None", %State{tx_active: False, tx_buffer: []}}
+    else
+      {:ok, logs} = File.read(file_path)
+      contents = List.last(logs |> String.split("\r\n", trim: true))
+      [binary_term, msg] = contents |> String.split(";", trim: true)
+      {msg, :erlang.binary_to_term(binary_term)}
+    end
   end
 end
