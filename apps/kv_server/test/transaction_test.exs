@@ -1,8 +1,12 @@
 defmodule KVStoreTest do
   use ExUnit.Case
-  require :rpc
 
   @moduletag :capture_log
+
+  # setup do
+  #   Application.stop(:kv_store)
+  #   :ok = Application.ensure_all_started(:kv_store)
+  # end
 
   setup do
     :ok = LocalCluster.start()
@@ -12,12 +16,13 @@ defmodule KVStoreTest do
     assert Node.ping(n2) == :pong
     assert Node.ping(n3) == :pong
 
-    # iskviesti rpc modulius kiekvienam nodui
-    # setenv(persistent=True) kiekvienam nodui (port)
-    # erlango env variables
-  end
+    :rpc.call(n1, Application, :ensure_all_started, [:kv_store])
+    :rpc.call(n2, Application, :ensure_all_started, [:kv_store])
 
-  setup do
+    :rpc.call(n3, Application, :put_env, [:kv_server, :port, 4040, persistent: true])
+    :rpc.call(n3, Application, :ensure_all_started, [:kv_server])
+
+
     opts = [:binary, packet: :line, active: false]
     {:ok, socket} = :gen_tcp.connect('localhost', 4040, opts)
     %{socket: socket}
@@ -27,7 +32,7 @@ defmodule KVStoreTest do
     assert String.contains?(send_and_recv(socket, "TRANSACTION\r\n"), ["OK", "started"])
     assert String.contains?(send_and_recv(socket, "CREATE users\r\n"), ["OK"])
     assert String.contains?(send_and_recv(socket, "PUT users user1 {'name':'Ted'}\r\n"), ["OK"])
-    assert String.contains?(send_and_recv(socket, "END\r\n"), ["OK"])
+    assert String.contains?(send_and_recv(socket, "END\r\n"), ["Transaction concluded\r\n"])
 
     # outside the transaction
     assert send_and_recv(socket, "GET users user1\r\n") == "OK: {'NAME':'TED'}\r\n"
@@ -39,7 +44,7 @@ defmodule KVStoreTest do
     assert String.contains?(send_and_recv(socket, "CREATE users\r\n"), ["OK", "no"])
     assert String.contains?(send_and_recv(socket, "PUT users user1 {'name':'Ted'}\r\n"), ["OK", "no"])
     assert String.contains?(send_and_recv(socket, "DELETE users3 user2\r\n"), ["OK", "no"])
-    assert String.contains?(send_and_recv(socket, "END\r\n"), ["OK", "no"])
+    assert String.contains?(send_and_recv(socket, "END\r\n"), ["Transaction concluded\r\n"])
 
     # outside the transaction
     assert send_and_recv(socket, "GET users user1\r\n") == "ERROR: value in table USERS with the key USER1 not found\r\n"

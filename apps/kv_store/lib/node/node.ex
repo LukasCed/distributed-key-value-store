@@ -7,8 +7,7 @@ defmodule KVStore.Node do
   """
   def start_link(opts) do
     server = Keyword.fetch!(opts, :name)
-    Logger.debug("Starting node: #{inspect(server)}")
-    GenServer.start_link(__MODULE__, server, opts)
+    GenServer.start_link(__MODULE__, server, name: __MODULE__)
   end
 
   # -------
@@ -21,6 +20,7 @@ defmodule KVStore.Node do
   ## --------------------------------- Server callbacks ---------------------------------
   @impl true
   def init(node) do
+    Logger.debug("Starting node: #{inspect(node)}")
     %{current_tx: tx} = KVStore.ThreePcParticipant.read_log(node)
 
     if tx != nil and tx.status == :prepare do
@@ -33,9 +33,11 @@ defmodule KVStore.Node do
   # ---- transaction ----
 
   @impl true
-  def handle_call({:transaction, node, msg, args}, _from, state) do
-    state = KVStore.ThreePcParticipant.transaction(msg, node, args, state)
-    {:reply, :agree, state}
+  def handle_call({:transaction, node, msg, {tx_id, queries}}, _from, state) do
+    if valid(queries) do
+      state = KVStore.ThreePcParticipant.transaction(msg, node, {tx_id, queries}, state)
+      {:reply, :agree, state}
+    end
   end
 
   @impl true
@@ -44,4 +46,7 @@ defmodule KVStore.Node do
     {:reply, result, state}
   end
 
+  defp valid(_queries) do
+    true
+  end
 end

@@ -18,12 +18,12 @@ defmodule KVServer.ThreePcCoordinator do
           :commit_success
         end
       end
+    else
+      Logger.debug("Sending abort from the coordinator")
+      broadcast(:abort, tx_id)  # retransmit on timeout?
+      write_log(tx_id, {:ok, %State{tx_active: False, tx_buffer: []}}, "COMPLETE")
+      :commit_failure
     end
-
-    Logger.debug("Sending abort from the coordinator")
-    broadcast(:abort, tx_id)  # retransmit on timeout?
-    write_log(tx_id, {:ok, %State{tx_active: False, tx_buffer: []}}, "COMPLETE")
-    :commit_failure
   end
 
   defp write_log(_tx_id, query_list, msg) do
