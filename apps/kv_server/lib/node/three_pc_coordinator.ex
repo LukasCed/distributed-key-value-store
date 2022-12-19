@@ -1,18 +1,23 @@
 defmodule KVServer.ThreePcCoordinator do
-
   require Logger
 
   def transaction(tx_id, query_list) do
     Logger.debug("Sending init from the coordinator")
-    acks = broadcast(:init, {tx_id, query_list}) # retransmit on timeout?
+    # retransmit on timeout?
+    acks = broadcast(:init, {tx_id, query_list})
+
     if Enum.all?(acks, fn x -> x == :agree end) do
       write_log(tx_id, query_list, "PHASE12")
       Logger.debug("Sending prepare from the coordinator")
-      acks = broadcast(:prepare, tx_id)  # retransmit on timeout?
+      # retransmit on timeout?
+      acks = broadcast(:prepare, tx_id)
+
       if Enum.all?(acks, fn x -> x == :agree end) do
         write_log(tx_id, query_list, "PHASE23")
         Logger.debug("Sending commit from the coordinator")
-        acks = broadcast(:commit, tx_id)  # retransmit on timeout?
+        # retransmit on timeout?
+        acks = broadcast(:commit, tx_id)
+
         if Enum.all?(acks, fn x -> x == :agree end) do
           write_log(tx_id, query_list, "COMPLETE")
           :commit_success
@@ -20,7 +25,8 @@ defmodule KVServer.ThreePcCoordinator do
       end
     else
       Logger.debug("Sending abort from the coordinator")
-      broadcast(:abort, tx_id)  # retransmit on timeout?
+      # retransmit on timeout?
+      broadcast(:abort, tx_id)
       write_log(tx_id, {:ok, %State{tx_active: False, tx_buffer: []}}, "COMPLETE")
       :commit_failure
     end
@@ -30,7 +36,12 @@ defmodule KVServer.ThreePcCoordinator do
     state = %State{tx_active: True, tx_buffer: query_list}
     Logger.debug("Writing #{inspect(msg)} log from coordinator")
     mkdir_if_not_exists("coordinator")
-    File.write("db_logs/coordinator/tx_manager_log", :erlang.term_to_binary(state) <> ";" <> msg <> "\r\n", [:append])
+
+    File.write(
+      "db_logs/coordinator/tx_manager_log",
+      :erlang.term_to_binary(state) <> ";" <> msg <> "\r\n",
+      [:append]
+    )
   end
 
   def broadcast(msg, args) do

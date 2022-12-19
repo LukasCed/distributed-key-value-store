@@ -9,7 +9,6 @@ defmodule KVStoreTest do
   # end
 
   setup do
-
     :ok = LocalCluster.start()
     nodes = LocalCluster.start_nodes("dsn-", 3, applications: [])
     [n1, n2, n3] = nodes
@@ -18,16 +17,13 @@ defmodule KVStoreTest do
     assert Node.ping(n3) == :pong
 
     file_path = Path.absname("db_logs")
-
     File.rm_rf(file_path)
-
 
     :rpc.call(n1, Application, :ensure_all_started, [:kv_store])
     :rpc.call(n2, Application, :ensure_all_started, [:kv_store])
 
     :rpc.call(n3, Application, :put_env, [:kv_server, :port, 4040, persistent: true])
     :rpc.call(n3, Application, :ensure_all_started, [:kv_server])
-
 
     opts = [:binary, packet: :line, active: false]
     {:ok, socket} = :gen_tcp.connect('localhost', 4040, opts)
@@ -39,7 +35,11 @@ defmodule KVStoreTest do
     assert String.contains?(send_and_recv(socket, "CREATE users\r\n"), ["OK"])
     assert String.contains?(send_and_recv(socket, "PUT users user1 {'name':'Ted'}\r\n"), ["OK"])
     assert String.contains?(send_and_recv(socket, "CREATE users123\r\n"), ["OK"])
-    assert String.contains?(send_and_recv(socket, "PUT users123 user1 {'name':'Todd'}\r\n"), ["OK"])
+
+    assert String.contains?(send_and_recv(socket, "PUT users123 user1 {'name':'Todd'}\r\n"), [
+             "OK"
+           ])
+
     assert String.contains?(send_and_recv(socket, "DELETE users123 user1\r\n"), ["OK"])
 
     assert String.contains?(send_and_recv(socket, "END\r\n"), ["Transaction concluded\r\n"])
@@ -52,7 +52,12 @@ defmodule KVStoreTest do
   test "transaction abort", %{socket: socket} do
     assert String.contains?(send_and_recv(socket, "TRANSACTION\r\n"), ["OK", "started"])
     assert String.contains?(send_and_recv(socket, "CREATE users\r\n"), ["OK", "no"])
-    assert String.contains?(send_and_recv(socket, "PUT users user1 {'name':'Ted'}\r\n"), ["OK", "no"])
+
+    assert String.contains?(send_and_recv(socket, "PUT users user1 {'name':'Ted'}\r\n"), [
+             "OK",
+             "no"
+           ])
+
     assert String.contains?(send_and_recv(socket, "DELETE users3 user2\r\n"), ["OK", "no"])
     assert String.contains?(send_and_recv(socket, "END\r\n"), ["Transaction concluded\r\n"])
 

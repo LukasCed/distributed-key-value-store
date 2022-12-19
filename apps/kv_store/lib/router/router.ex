@@ -12,6 +12,8 @@ defmodule KVStore.Router do
   end
 
   def nodes do
-    for name <- Node.list([:known, :visible]), name != :nonode@nohost and name != :"manager@127.0.0.1" and name != Node.self(), do: name
+    for name <- Node.list([:known, :visible]),
+        name != :nonode@nohost and name != :"manager@127.0.0.1" and name != Node.self(),
+        do: name
   end
 end

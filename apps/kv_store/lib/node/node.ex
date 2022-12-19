@@ -16,7 +16,6 @@ defmodule KVStore.Node do
     GenServer.call({__MODULE__, node}, {type, node, msg, args})
   end
 
-
   ## --------------------------------- Server callbacks ---------------------------------
   @impl true
   def init(node) do
@@ -53,5 +52,4 @@ defmodule KVStore.Node do
     result = KVStore.Database.perform_op(db_op, to_string(node), args)
     {:reply, result, state}
   end
-
 end

@@ -5,7 +5,6 @@ defmodule KVServer.CoordinatorNode do
 
   # ---------------------------- interface ----------------------------
 
-
   def perform(op) do
     GenServer.call(__MODULE__, op)
   end
@@ -18,14 +17,15 @@ defmodule KVServer.CoordinatorNode do
   def init(_) do
     Logger.debug("Starting coordinator node")
 
-    {msg,  %State{tx_active: tx_active, tx_buffer: tx_buffer}} = KVServer.ThreePcCoordinator.read_log()
+    {msg, %State{tx_active: tx_active, tx_buffer: tx_buffer}} =
+      KVServer.ThreePcCoordinator.read_log()
+
     if tx_active == true and msg == "PHASE23" do
       KVServer.ThreePcCoordinator.transaction("new_tx_id", tx_buffer)
     end
 
     {:ok, %State{tx_active: False, tx_buffer: []}}
   end
-
 
   @impl GenServer
   def handle_call({:start_transaction}, _from, %State{tx_active: False, tx_buffer: _}) do
@@ -59,9 +59,13 @@ defmodule KVServer.CoordinatorNode do
   def handle_call({:get, {table, key}}, _from, %State{tx_active: False, tx_buffer: tx_list}) do
     Logger.debug("Non-transactional get called")
     val = Enum.at(KVServer.Dao.perform(:get, table, key), 0)
+
     case val do
-      {:ok, value} -> {:reply, {:ok, value <> "\r\n"}, %State{tx_active: False, tx_buffer: tx_list}}
-      _ -> {:reply, {:ok, "Not found\r\n"}, %State{tx_active: False, tx_buffer: tx_list}}
+      {:ok, value} ->
+        {:reply, {:ok, value <> "\r\n"}, %State{tx_active: False, tx_buffer: tx_list}}
+
+      _ ->
+        {:reply, {:ok, "Not found\r\n"}, %State{tx_active: False, tx_buffer: tx_list}}
     end
   end
 
@@ -71,31 +75,38 @@ defmodule KVServer.CoordinatorNode do
     KVServer.Dao.perform(:delete, table, key)
     {:reply, {:ok, "OK Delete\r\n"}, %State{tx_active: False, tx_buffer: tx_list}}
   end
+
   # -------------- transactional stuff --------------
 
   @impl GenServer
   def handle_call({:create, table}, _from, %State{tx_active: True, tx_buffer: tx_list}) do
     Logger.debug("Transactional create called")
-    {:reply, {:ok, "OK Buffer create\r\n"}, %State{tx_active: True, tx_buffer: tx_list ++ [{:create, {table}}]}}
+
+    {:reply, {:ok, "OK Buffer create\r\n"},
+     %State{tx_active: True, tx_buffer: tx_list ++ [{:create, {table}}]}}
   end
 
   @impl GenServer
   def handle_call({:put, {table, key, value}}, _from, %State{tx_active: True, tx_buffer: tx_list}) do
     Logger.debug("Transactional put called")
-    {:reply, {:ok, "OK Buffer Put\r\n"}, %State{tx_active: True, tx_buffer: tx_list ++ [{:put, {table, key, value}}]}}
+
+    {:reply, {:ok, "OK Buffer Put\r\n"},
+     %State{tx_active: True, tx_buffer: tx_list ++ [{:put, {table, key, value}}]}}
   end
 
   @impl GenServer
   def handle_call({:get, {table, key}}, _from, %State{tx_active: True, tx_buffer: tx_list}) do
     Logger.debug("Transactional get called")
-    {:reply, {:ok, "OK Buffer Get\r\n"}, %State{tx_active: True, tx_buffer: tx_list ++ [{:get, {table, key}}]}}
+
+    {:reply, {:ok, "OK Buffer Get\r\n"},
+     %State{tx_active: True, tx_buffer: tx_list ++ [{:get, {table, key}}]}}
   end
 
   @impl GenServer
   def handle_call({:delete, {table, key}}, _from, %State{tx_active: True, tx_buffer: tx_list}) do
     Logger.debug("Transactional delete called")
-    {:reply, {:ok, "OK Buffer Delete\r\n"}, %State{tx_active: True, tx_buffer: tx_list ++ [{:delete, {table, key}}]}}
+
+    {:reply, {:ok, "OK Buffer Delete\r\n"},
+     %State{tx_active: True, tx_buffer: tx_list ++ [{:delete, {table, key}}]}}
   end
-
-
 end

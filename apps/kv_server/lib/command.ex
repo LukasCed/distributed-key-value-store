@@ -13,5 +13,4 @@ defmodule KVServer.Command do
       _ -> {:error, :unknown_command}
     end
   end
-
 end

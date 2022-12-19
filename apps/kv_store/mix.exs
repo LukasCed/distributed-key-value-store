@@ -35,7 +35,7 @@ defmodule KVStore.MixProject do
       {:local_cluster, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:jason, "~> 1.3"},
-      {:elixir_uuid, "~> 1.2"},
+      {:elixir_uuid, "~> 1.2"}
     ]
   end
 end

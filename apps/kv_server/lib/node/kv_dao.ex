@@ -1,5 +1,4 @@
 defmodule KVServer.Dao do
-
   def perform(:create, table) do
     KVStore.Router.route_all(:no_transaction, :create, {table})
   end
@@ -15,5 +14,4 @@ defmodule KVServer.Dao do
   def perform(:delete, table, key) do
     KVStore.Router.route_all(:no_transaction, :delete, {table, key})
   end
-
 end

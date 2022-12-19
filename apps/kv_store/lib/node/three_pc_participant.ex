@@ -7,27 +7,29 @@ defmodule KVStore.ThreePcParticipant do
 
     # validate tx here
 
-    state = %{ current_tx: %TxInfo{ tx_id: tx_id, status: :init, query_list: queries }}
+    state = %{current_tx: %TxInfo{tx_id: tx_id, status: :init, query_list: queries}}
     # write in disk for durability
     write_log(tx_id, state, node, "PHASE12")
     state
-
   end
 
-  def transaction(:prepare, node, tx_id, %{current_tx: %TxInfo{ tx_id: tx_id, status: :init, query_list: queries }}) do
+  def transaction(:prepare, node, tx_id, %{
+        current_tx: %TxInfo{tx_id: tx_id, status: :init, query_list: queries}
+      }) do
     Logger.debug("Received prepare call in the participant")
 
     # validate tx here
 
-    state = %{ current_tx: %TxInfo{ tx_id: tx_id, status: :prepare, query_list: queries }}
+    state = %{current_tx: %TxInfo{tx_id: tx_id, status: :prepare, query_list: queries}}
     # write in disk for durability
     write_log(tx_id, state, node, "PHASE23")
     state
-
   end
 
   # todo:add a timeout - after phase23 he knows he can commit even if he loses the :commit msg?
-  def transaction(:commit, node, _tx_id, %{current_tx: %TxInfo{ tx_id: _tx_id, status: :prepare, query_list: queries }}) do
+  def transaction(:commit, node, _tx_id, %{
+        current_tx: %TxInfo{tx_id: _tx_id, status: :prepare, query_list: queries}
+      }) do
     Logger.debug("Received commit call in the participant")
     commit(queries, node)
     # cleanup
@@ -49,6 +51,7 @@ defmodule KVStore.ThreePcParticipant do
     mkdir_if_not_exists(path)
     file_path = Path.absname("db_logs" <> "/" <> to_string(path) <> "/" <> "tx_participant_log")
     Logger.debug("Loading state from #{inspect(file_path)} in the participant node")
+
     if not File.exists?(file_path) do
       %{current_tx: nil}
     else
@@ -57,19 +60,24 @@ defmodule KVStore.ThreePcParticipant do
       [_tx_id, binary_term, _msg] = contents |> String.split(";", trim: true)
       :erlang.binary_to_term(binary_term)
     end
-
   end
 
   def commit(query_list, path) do
     mkdir_if_not_exists(path)
     IO.inspect(query_list)
-    Enum.each(query_list, fn {operation, args} -> KVStore.Database.perform_op(operation, to_string(path), args) end)
+
+    Enum.each(query_list, fn {operation, args} ->
+      KVStore.Database.perform_op(operation, to_string(path), args)
+    end)
   end
 
   defp write_log(tx_id, state, path, msg) do
     mkdir_if_not_exists(path)
     file_path = Path.absname("db_logs" <> "/" <> to_string(path) <> "/" <> "tx_participant_log")
-    File.write(file_path, tx_id <> ";" <> :erlang.term_to_binary(state) <> ";" <> msg <> "\r\n", [:append])
+
+    File.write(file_path, tx_id <> ";" <> :erlang.term_to_binary(state) <> ";" <> msg <> "\r\n", [
+      :append
+    ])
   end
 
   defp delete_log(path) do
@@ -81,5 +89,4 @@ defmodule KVStore.ThreePcParticipant do
     dir_path = Path.absname("db_logs" <> "/" <> to_string(path))
     File.mkdir_p(dir_path)
   end
-
 end
