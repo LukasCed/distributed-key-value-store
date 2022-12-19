@@ -34,10 +34,18 @@ defmodule KVStore.Node do
 
   @impl true
   def handle_call({:transaction, node, msg, {tx_id, queries}}, _from, state) do
-    if valid(queries) do
+    if KVStore.Validator.validate_transactions(node, queries) do
       state = KVStore.ThreePcParticipant.transaction(msg, node, {tx_id, queries}, state)
       {:reply, :agree, state}
+    else
+      {:reply, :abort, %{current_tx: nil}}
     end
+  end
+
+  @impl true
+  def handle_call({:transaction, node, msg, tx_id}, _from, state) do
+    state = KVStore.ThreePcParticipant.transaction(msg, node, tx_id, state)
+    {:reply, :agree, state}
   end
 
   @impl true
@@ -46,7 +54,4 @@ defmodule KVStore.Node do
     {:reply, result, state}
   end
 
-  defp valid(_queries) do
-    true
-  end
 end
