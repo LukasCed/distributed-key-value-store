@@ -7,19 +7,19 @@ defmodule KVServer.ThreePcCoordinator do
     acks = broadcast(:init, {tx_id, query_list})
 
     if Enum.all?(acks, fn x -> x == :agree end) do
-      write_log(tx_id, query_list, "PHASE12")
+      write_log(tx_id, true, query_list, "PHASE12")
       Logger.debug("Sending prepare from the coordinator")
       # retransmit on timeout?
       acks = broadcast(:prepare, tx_id)
 
       if Enum.all?(acks, fn x -> x == :agree end) do
-        write_log(tx_id, query_list, "PHASE23")
+        write_log(tx_id, true, query_list, "PHASE23")
         Logger.debug("Sending commit from the coordinator")
         # retransmit on timeout?
         acks = broadcast(:commit, tx_id)
 
         if Enum.all?(acks, fn x -> x == :agree end) do
-          write_log(tx_id, query_list, "COMPLETE")
+          write_log(tx_id, false, query_list, "COMPLETE")
           :commit_success
         end
       end
@@ -27,13 +27,13 @@ defmodule KVServer.ThreePcCoordinator do
       Logger.debug("Sending abort from the coordinator")
       # retransmit on timeout?
       broadcast(:abort, tx_id)
-      write_log(tx_id, {:ok, %State{tx_active: False, tx_buffer: []}}, "COMPLETE")
+      write_log(tx_id, false, [], "COMPLETE")
       :commit_failure
     end
   end
 
-  defp write_log(_tx_id, query_list, msg) do
-    state = %State{tx_active: True, tx_buffer: query_list}
+  defp write_log(_tx_id, tx_active, query_list, msg) do
+    state = %State{tx_active: tx_active, tx_buffer: query_list}
     Logger.debug("Writing #{inspect(msg)} log from coordinator")
     mkdir_if_not_exists("coordinator")
 
