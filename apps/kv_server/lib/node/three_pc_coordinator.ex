@@ -1,34 +1,42 @@
 defmodule KVServer.ThreePcCoordinator do
   require Logger
 
-  def transaction(tx_id, query_list) do
+  def init(tx_id, query_list) do
     Logger.debug("Sending init from the coordinator")
     # retransmit on timeout?
-    acks = broadcast(:init, {tx_id, query_list})
+    acks = KVServer.ThreePcCoordinator.broadcast_init(tx_id, query_list)
 
     if Enum.all?(acks, fn x -> x == :agree end) do
-      write_log(tx_id, true, query_list, "PHASE12")
-      Logger.debug("Sending prepare from the coordinator")
-      # retransmit on timeout?
-      acks = broadcast(:prepare, tx_id)
-
-      if Enum.all?(acks, fn x -> x == :agree end) do
-        write_log(tx_id, true, query_list, "PHASE23")
-        Logger.debug("Sending commit from the coordinator")
-        # retransmit on timeout?
-        acks = broadcast(:commit, tx_id)
-
-        if Enum.all?(acks, fn x -> x == :agree end) do
-          write_log(tx_id, false, query_list, "COMPLETE")
-          :commit_success
-        end
-      end
+      prepare(tx_id, query_list)
     else
       Logger.debug("Sending abort from the coordinator")
       # retransmit on timeout?
-      broadcast(:abort, tx_id)
+      KVServer.ThreePcCoordinator.broadcast_abort(tx_id)
       write_log(tx_id, false, [], "COMPLETE")
       :commit_failure
+    end
+  end
+
+  def prepare(tx_id, query_list) do
+    write_log(tx_id, true, query_list, "PHASE12")
+    Logger.debug("Sending prepare from the coordinator")
+    # retransmit on timeout?
+    acks = KVServer.ThreePcCoordinator.broadcast_prepare(tx_id)
+
+    if Enum.all?(acks, fn x -> x == :agree end) do
+      commit(tx_id, query_list)
+    end
+  end
+
+  def commit(tx_id, query_list) do
+    write_log(tx_id, true, query_list, "PHASE23")
+    Logger.debug("Sending commit from the coordinator")
+    # retransmit on timeout?
+    acks = KVServer.ThreePcCoordinator.broadcast_commit(tx_id)
+
+    if Enum.all?(acks, fn x -> x == :agree end) do
+      write_log(tx_id, false, query_list, "COMPLETE")
+      :commit_success
     end
   end
 
@@ -42,6 +50,22 @@ defmodule KVServer.ThreePcCoordinator do
       :erlang.term_to_binary(state) <> ";" <> msg <> "\r\n",
       [:append]
     )
+  end
+
+  def broadcast_init(tx_id, query_list) do
+    broadcast(:init, {tx_id, query_list})
+  end
+
+  def broadcast_prepare(tx_id) do
+    broadcast(:prepare, tx_id)
+  end
+
+  def broadcast_commit(tx_id) do
+    broadcast(:commit, tx_id)
+  end
+
+  def broadcast_abort(tx_id) do
+    broadcast(:abort, tx_id)
   end
 
   def broadcast(msg, args) do
@@ -59,12 +83,15 @@ defmodule KVServer.ThreePcCoordinator do
     Logger.debug("Loading state from #{inspect(file_path)} in the coordinator node")
 
     if not File.exists?(file_path) do
+      Logger.debug("Prev. state not found")
       {"None", %State{tx_active: False, tx_buffer: []}}
     else
       {:ok, logs} = File.read(file_path)
       contents = List.last(logs |> String.split("\r\n", trim: true))
       [binary_term, msg] = contents |> String.split(";", trim: true)
-      {msg, :erlang.binary_to_term(binary_term)}
+      state = :erlang.binary_to_term(binary_term)
+      Logger.debug("Loaded up state #{inspect(state)}")
+      {msg, state}
     end
   end
 end

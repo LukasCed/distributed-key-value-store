@@ -27,8 +27,8 @@ defmodule KVStore.ThreePcParticipant do
   end
 
   # todo:add a timeout - after phase23 he knows he can commit even if he loses the :commit msg?
-  def transaction(:commit, node, _tx_id, %{
-        current_tx: %TxInfo{tx_id: _tx_id, status: :prepare, query_list: queries}
+  def transaction(:commit, node, _, %{
+        current_tx: %TxInfo{tx_id: _, status: :prepare, query_list: queries}
       }) do
     Logger.debug("Received commit call in the participant")
     commit(queries, node)

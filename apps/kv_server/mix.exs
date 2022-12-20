@@ -30,7 +30,8 @@ defmodule KVServer.MixProject do
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
       # {:sibling_app_in_umbrella, in_umbrella: true}
       {:kv_store, in_umbrella: true},
-      {:local_cluster, "~> 1.2"}
+      {:local_cluster, "~> 1.2"},
+      {:mock, "~> 0.3.0", only: :test}
     ]
   end
 end

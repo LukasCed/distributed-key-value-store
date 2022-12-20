@@ -12,5 +12,5 @@ import Config
 # Sample configuration:
 
 config :logger, :console,
-  format: "$time [$level] $metadata$message\n",
+  format: "$time [$level] [$metadata] $message\n",
   metadata: [:pid, :mfa, :line]

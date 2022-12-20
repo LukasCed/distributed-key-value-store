@@ -21,7 +21,8 @@ defmodule KVServer.CoordinatorNode do
       KVServer.ThreePcCoordinator.read_log()
 
     if tx_active == true and msg == "PHASE23" do
-      KVServer.ThreePcCoordinator.transaction("new_tx_id", tx_buffer)
+      Logger.debug("Continuing previous transaction")
+      KVServer.ThreePcCoordinator.commit("new_tx_id", tx_buffer)
     end
 
     {:ok, %State{tx_active: False, tx_buffer: []}}
@@ -36,7 +37,7 @@ defmodule KVServer.CoordinatorNode do
   @impl GenServer
   def handle_call({:end_transaction}, _from, %State{tx_active: True, tx_buffer: tx_list}) do
     Logger.debug("Ending transaction - using 3PC to commit everything")
-    KVServer.ThreePcCoordinator.transaction("random_tx_id", tx_list)
+    KVServer.ThreePcCoordinator.init("random_tx_id", tx_list)
     {:reply, {:ok, "Transaction concluded\r\n"}, %State{tx_active: False, tx_buffer: []}}
   end
 
