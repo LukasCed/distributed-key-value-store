@@ -2,16 +2,16 @@
 TLC2 Version 2.18 of Day Month 20?? (rev: 6dfec66)
 @!@!@ENDMSG 2262 @!@!@
 @!@!@STARTMSG 2187:0 @!@!@
-Running breadth-first search Model-Checking with fp 117 and seed -3296026398666743195 with 1 worker on 8 cores with 3616MB heap and 64MB offheap memory [pid: 3056] (Windows 10 10.0 amd64, Oracle Corporation 11.0.13 x86_64, MSBDiskFPSet, DiskStateQueue).
+Running breadth-first search Model-Checking with fp 69 and seed -5667489888001526388 with 1 worker on 8 cores with 3616MB heap and 64MB offheap memory [pid: 15888] (Windows 10 10.0 amd64, Oracle Corporation 11.0.13 x86_64, MSBDiskFPSet, DiskStateQueue).
 @!@!@ENDMSG 2187 @!@!@
 @!@!@STARTMSG 2220:0 @!@!@
 Starting SANY...
 @!@!@ENDMSG 2220 @!@!@
 Parsing file C:\Users\Lukas\Desktop\STUDIJOS\III semester\distributed systems\kv\TLA\kv_syst.tla (file:/c:/Users/Lukas/Desktop/STUDIJOS/III%20semester/distributed%20systems/kv/TLA/kv_syst.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-7770048258208032629\TLC.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2106/tools/tla2tools.jar!/tla2sany/StandardModules/TLC.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-7770048258208032629\Naturals.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2106/tools/tla2tools.jar!/tla2sany/StandardModules/Naturals.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-7770048258208032629\Sequences.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2106/tools/tla2tools.jar!/tla2sany/StandardModules/Sequences.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-7770048258208032629\FiniteSets.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2106/tools/tla2tools.jar!/tla2sany/StandardModules/FiniteSets.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-6655535833600780184\TLC.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2106/tools/tla2tools.jar!/tla2sany/StandardModules/TLC.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-6655535833600780184\Naturals.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2106/tools/tla2tools.jar!/tla2sany/StandardModules/Naturals.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-6655535833600780184\Sequences.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2106/tools/tla2tools.jar!/tla2sany/StandardModules/Sequences.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-6655535833600780184\FiniteSets.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2106/tools/tla2tools.jar!/tla2sany/StandardModules/FiniteSets.tla)
 Semantic processing of module Naturals
 Semantic processing of module Sequences
 Semantic processing of module FiniteSets
@@ -21,7 +21,7 @@ Semantic processing of module kv_syst
 SANY finished.
 @!@!@ENDMSG 2219 @!@!@
 @!@!@STARTMSG 2185:0 @!@!@
-Starting... (2022-12-21 22:15:46)
+Starting... (2022-12-21 23:59:59)
 @!@!@ENDMSG 2185 @!@!@
 @!@!@STARTMSG 2212:0 @!@!@
 Implied-temporal checking--satisfiability problem has 3 branches.
@@ -30,16 +30,16 @@ Implied-temporal checking--satisfiability problem has 3 branches.
 Computing initial states...
 @!@!@ENDMSG 2189 @!@!@
 @!@!@STARTMSG 2190:0 @!@!@
-Finished computing initial states: 1 distinct state generated at 2022-12-21 22:15:46.
+Finished computing initial states: 1 distinct state generated at 2022-12-22 00:00:00.
 @!@!@ENDMSG 2190 @!@!@
 @!@!@STARTMSG 2200:0 @!@!@
-Progress(10) at 2022-12-21 22:15:46: 526 states generated, 125 distinct states found, 0 states left on queue.
+Progress(10) at 2022-12-22 00:00:00: 526 states generated, 125 distinct states found, 0 states left on queue.
 @!@!@ENDMSG 2200 @!@!@
 @!@!@STARTMSG 2192:0 @!@!@
-Checking 3 branches of temporal properties for the complete state space with 375 total distinct states at (2022-12-21 22:15:46)
+Checking 3 branches of temporal properties for the complete state space with 375 total distinct states at (2022-12-22 00:00:00)
 @!@!@ENDMSG 2192 @!@!@
 @!@!@STARTMSG 2267:0 @!@!@
-Finished checking temporal properties in 00s at 2022-12-21 22:15:46
+Finished checking temporal properties in 00s at 2022-12-22 00:00:00
 @!@!@ENDMSG 2267 @!@!@
 @!@!@STARTMSG 2193:0 @!@!@
 Model checking completed. No error has been found.
@@ -48,7 +48,7 @@ Model checking completed. No error has been found.
   calculated (optimistic):  val = 2.7E-15
 @!@!@ENDMSG 2193 @!@!@
 @!@!@STARTMSG 2201:0 @!@!@
-The coverage statistics at 2022-12-21 22:15:46
+The coverage statistics at 2022-12-22 00:00:00
 @!@!@ENDMSG 2201 @!@!@
 @!@!@STARTMSG 2773:0 @!@!@
 <Init line 28, col 1 to line 28, col 4 of module kv_syst>: 1:125
@@ -165,7 +165,7 @@ The coverage statistics at 2022-12-21 22:15:46
 End of statistics.
 @!@!@ENDMSG 2202 @!@!@
 @!@!@STARTMSG 2200:0 @!@!@
-Progress(10) at 2022-12-21 22:15:46: 526 states generated (27,467 s/min), 125 distinct states found (6,527 ds/min), 0 states left on queue.
+Progress(10) at 2022-12-22 00:00:00: 526 states generated (22,526 s/min), 125 distinct states found (5,353 ds/min), 0 states left on queue.
 @!@!@ENDMSG 2200 @!@!@
 @!@!@STARTMSG 2199:0 @!@!@
 526 states generated, 125 distinct states found, 0 states left on queue.
@@ -177,5 +177,5 @@ The depth of the complete state graph search is 10.
 The average outdegree of the complete state graph is 1 (minimum is 0, the maximum 6 and the 95th percentile is 3).
 @!@!@ENDMSG 2268 @!@!@
 @!@!@STARTMSG 2186:0 @!@!@
-Finished in 1158ms at (2022-12-21 22:15:46)
+Finished in 1411ms at (2022-12-22 00:00:00)
 @!@!@ENDMSG 2186 @!@!@

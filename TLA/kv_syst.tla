@@ -54,4 +54,14 @@ Fairness == WF_vars(Next)
 Spec == Init /\ [][Next]_vars /\ Fairness
 --------------------------------------------------------------
 THEOREM Spec => []TypeInvariant /\ []NonblockingProperty /\ []TxTerminationProperty
+  <1>1. Init => TypeInvariant BY DEF Init, TypeInvariant, NodeStates
+  <1>2. TypeInvariant /\ [Next]_vars => TypeInvariant'
+    <2> SUFFICES ASSUME TypeInvariant, Next PROVE TypeInvariant' BY DEF vars, TypeInvariant
+    <2>1. CASE InitTransaction BY <2>1 DEF InitTransaction, TypeInvariant, NodeStates
+    <2>2. CASE PrepareTransaction BY <2>2 DEF PrepareTransaction, TypeInvariant, NodeStates
+    <2>3. CASE CommitTransaction BY <2>3 DEF CommitTransaction, TypeInvariant, NodeStates
+    <2>4. CASE AbortTransaction BY <2>4 DEF AbortTransaction, TypeInvariant, NodeStates
+    <2>q. QED BY <2>1, <2>2, <2>3, <2>4 DEF Next
+  <1>q. QED BY <1>1, <1>2 DEF Spec
+
 ==============================================================
