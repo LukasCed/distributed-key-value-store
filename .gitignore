@@ -25,3 +25,5 @@ erl_crash.dump
 todo.txt
 
 db_logs
+
+TLA/states
