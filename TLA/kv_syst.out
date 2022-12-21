@@ -1,17 +1,17 @@
 @!@!@STARTMSG 2262:0 @!@!@
-TLC2 Version 2.18 of Day Month 20?? (rev: e7c0763)
+TLC2 Version 2.18 of Day Month 20?? (rev: 6dfec66)
 @!@!@ENDMSG 2262 @!@!@
 @!@!@STARTMSG 2187:0 @!@!@
-Running breadth-first search Model-Checking with fp 8 and seed -4005951064829211161 with 1 worker on 8 cores with 3616MB heap and 64MB offheap memory [pid: 16912] (Windows 10 10.0 amd64, Oracle Corporation 11.0.13 x86_64, MSBDiskFPSet, DiskStateQueue).
+Running breadth-first search Model-Checking with fp 117 and seed -3296026398666743195 with 1 worker on 8 cores with 3616MB heap and 64MB offheap memory [pid: 3056] (Windows 10 10.0 amd64, Oracle Corporation 11.0.13 x86_64, MSBDiskFPSet, DiskStateQueue).
 @!@!@ENDMSG 2187 @!@!@
 @!@!@STARTMSG 2220:0 @!@!@
 Starting SANY...
 @!@!@ENDMSG 2220 @!@!@
 Parsing file C:\Users\Lukas\Desktop\STUDIJOS\III semester\distributed systems\kv\TLA\kv_syst.tla (file:/c:/Users/Lukas/Desktop/STUDIJOS/III%20semester/distributed%20systems/kv/TLA/kv_syst.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-9802752331064254845\TLC.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1706/tools/tla2tools.jar!/tla2sany/StandardModules/TLC.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-9802752331064254845\Naturals.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1706/tools/tla2tools.jar!/tla2sany/StandardModules/Naturals.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-9802752331064254845\Sequences.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1706/tools/tla2tools.jar!/tla2sany/StandardModules/Sequences.tla)
-Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-9802752331064254845\FiniteSets.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.11.1706/tools/tla2tools.jar!/tla2sany/StandardModules/FiniteSets.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-7770048258208032629\TLC.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2106/tools/tla2tools.jar!/tla2sany/StandardModules/TLC.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-7770048258208032629\Naturals.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2106/tools/tla2tools.jar!/tla2sany/StandardModules/Naturals.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-7770048258208032629\Sequences.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2106/tools/tla2tools.jar!/tla2sany/StandardModules/Sequences.tla)
+Parsing file C:\Users\Lukas\AppData\Local\Temp\tlc-7770048258208032629\FiniteSets.tla (jar:file:/C:/Users/Lukas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2106/tools/tla2tools.jar!/tla2sany/StandardModules/FiniteSets.tla)
 Semantic processing of module Naturals
 Semantic processing of module Sequences
 Semantic processing of module FiniteSets
@@ -21,74 +21,161 @@ Semantic processing of module kv_syst
 SANY finished.
 @!@!@ENDMSG 2219 @!@!@
 @!@!@STARTMSG 2185:0 @!@!@
-Starting... (2022-11-17 19:16:23)
+Starting... (2022-12-21 22:15:46)
 @!@!@ENDMSG 2185 @!@!@
 @!@!@STARTMSG 2212:0 @!@!@
-Implied-temporal checking--satisfiability problem has 2 branches.
+Implied-temporal checking--satisfiability problem has 3 branches.
 @!@!@ENDMSG 2212 @!@!@
 @!@!@STARTMSG 2189:0 @!@!@
 Computing initial states...
 @!@!@ENDMSG 2189 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 2 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 4 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 8 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 16 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 32 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 64 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 128 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 256 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 512 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 1024 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 2048 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 4096 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 8192 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 16384 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 32768 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 65536 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 131072 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 262144 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 524288 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 1048576 initial states...
-@!@!@ENDMSG 2269 @!@!@
-@!@!@STARTMSG 2269:0 @!@!@
-Computed 2097152 initial states...
-@!@!@ENDMSG 2269 @!@!@
+@!@!@STARTMSG 2190:0 @!@!@
+Finished computing initial states: 1 distinct state generated at 2022-12-21 22:15:46.
+@!@!@ENDMSG 2190 @!@!@
+@!@!@STARTMSG 2200:0 @!@!@
+Progress(10) at 2022-12-21 22:15:46: 526 states generated, 125 distinct states found, 0 states left on queue.
+@!@!@ENDMSG 2200 @!@!@
+@!@!@STARTMSG 2192:0 @!@!@
+Checking 3 branches of temporal properties for the complete state space with 375 total distinct states at (2022-12-21 22:15:46)
+@!@!@ENDMSG 2192 @!@!@
+@!@!@STARTMSG 2267:0 @!@!@
+Finished checking temporal properties in 00s at 2022-12-21 22:15:46
+@!@!@ENDMSG 2267 @!@!@
+@!@!@STARTMSG 2193:0 @!@!@
+Model checking completed. No error has been found.
+  Estimates of the probability that TLC did not check all reachable states
+  because two distinct states had the same fingerprint:
+  calculated (optimistic):  val = 2.7E-15
+@!@!@ENDMSG 2193 @!@!@
+@!@!@STARTMSG 2201:0 @!@!@
+The coverage statistics at 2022-12-21 22:15:46
+@!@!@ENDMSG 2201 @!@!@
+@!@!@STARTMSG 2773:0 @!@!@
+<Init line 28, col 1 to line 28, col 4 of module kv_syst>: 1:125
+@!@!@ENDMSG 2773 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 29, col 8 to line 29, col 33 of module kv_syst: 1
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 29, col 39 to line 29, col 79 of module kv_syst: 125
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 29, col 55 to line 29, col 79 of module kv_syst: 155
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 29, col 48 to line 29, col 52 of module kv_syst: 125
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<InitTransaction line 32, col 1 to line 32, col 15 of module kv_syst (33 9 35 56)>: 26:168
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 33, col 12 to line 33, col 36 of module kv_syst: 2088
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 33, col 12 to line 33, col 30 of module kv_syst: 1920
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 34, col 13 to line 34, col 25 of module kv_syst: 504
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 34, col 13 to line 34, col 19 of module kv_syst: 420
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 34, col 30 to line 34, col 42 of module kv_syst: 504
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 34, col 30 to line 34, col 36 of module kv_syst: 420
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 35, col 12 to line 35, col 56 of module kv_syst: 168
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<PrepareTransaction line 37, col 1 to line 37, col 18 of module kv_syst (38 9 40 56)>: 37:150
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 38, col 12 to line 38, col 36 of module kv_syst: 2070
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 38, col 12 to line 38, col 30 of module kv_syst: 1920
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 39, col 13 to line 39, col 25 of module kv_syst: 450
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 39, col 13 to line 39, col 19 of module kv_syst: 375
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 39, col 30 to line 39, col 42 of module kv_syst: 450
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 39, col 30 to line 39, col 36 of module kv_syst: 375
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 40, col 12 to line 40, col 56 of module kv_syst: 150
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<CommitTransaction line 42, col 1 to line 42, col 17 of module kv_syst (43 9 45 56)>: 61:75
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 43, col 12 to line 43, col 36 of module kv_syst: 1995
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 43, col 12 to line 43, col 30 of module kv_syst: 1920
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 44, col 12 to line 44, col 24 of module kv_syst: 450
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 44, col 12 to line 44, col 18 of module kv_syst: 375
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 45, col 12 to line 45, col 56 of module kv_syst: 75
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<AbortTransaction line 47, col 1 to line 47, col 16 of module kv_syst (48 9 50 56)>: 0:159
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 48, col 13 to line 48, col 37 of module kv_syst: 2004
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 48, col 13 to line 48, col 31 of module kv_syst: 1920
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 48, col 42 to line 48, col 66 of module kv_syst: 1995
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 48, col 42 to line 48, col 60 of module kv_syst: 1920
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 49, col 12 to line 49, col 24 of module kv_syst: 954
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 49, col 12 to line 49, col 18 of module kv_syst: 795
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 50, col 12 to line 50, col 56 of module kv_syst: 159
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2774:0 @!@!@
+<TypeInvariant line 16, col 1 to line 16, col 13 of module kv_syst>
+@!@!@ENDMSG 2774 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 17, col 5 to line 17, col 33 of module kv_syst: 125
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2202:0 @!@!@
+End of statistics.
+@!@!@ENDMSG 2202 @!@!@
+@!@!@STARTMSG 2200:0 @!@!@
+Progress(10) at 2022-12-21 22:15:46: 526 states generated (27,467 s/min), 125 distinct states found (6,527 ds/min), 0 states left on queue.
+@!@!@ENDMSG 2200 @!@!@
+@!@!@STARTMSG 2199:0 @!@!@
+526 states generated, 125 distinct states found, 0 states left on queue.
+@!@!@ENDMSG 2199 @!@!@
+@!@!@STARTMSG 2194:0 @!@!@
+The depth of the complete state graph search is 10.
+@!@!@ENDMSG 2194 @!@!@
+@!@!@STARTMSG 2268:0 @!@!@
+The average outdegree of the complete state graph is 1 (minimum is 0, the maximum 6 and the 95th percentile is 3).
+@!@!@ENDMSG 2268 @!@!@
+@!@!@STARTMSG 2186:0 @!@!@
+Finished in 1158ms at (2022-12-21 22:15:46)
+@!@!@ENDMSG 2186 @!@!@

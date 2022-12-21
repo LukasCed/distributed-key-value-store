@@ -134,6 +134,19 @@ defmodule KVStoreTest do
     assert send_and_recv(socket, "GET users user1\r\n") == "{'NAME':'TED'}\r\n"
   end
 
+  # test "transaction randomized crash",%{socket: socket} do
+  #   assert String.contains?(send_and_recv(socket, "TRANSACTION\r\n"), ["OK", "started"])
+  #   assert String.contains?(send_and_recv(socket, "CREATE users\r\n"), ["OK", "no"])
+
+  #   assert String.contains?(send_and_recv(socket, "PUT users user1 {'name':'Ted'}\r\n"), [
+  #            "OK",
+  #            "no"
+  #          ])
+  #   assert String.contains?(send_and_recv(socket, "END\r\n"), ["Transaction concluded\r\n"])
+  #   assert send_and_recv(socket, "GET users user1\r\n") == "{'NAME':'TED'}\r\n"
+  #   # Agent.stop(KVServer.CoordinatorNode)
+  # end
+
   defp send_and_recv(socket, command) do
     :ok = :gen_tcp.send(socket, command)
     {:ok, data} = :gen_tcp.recv(socket, 0, 1000)
